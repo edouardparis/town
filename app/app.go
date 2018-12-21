@@ -9,7 +9,9 @@ type App struct {
 }
 
 func New() (*App, error) {
-	logger, err := logging.NewCliLogger(&logging.Config{})
+	logger, err := logging.NewCliLogger(&logging.Config{
+		Verbose: true,
+	})
 	if err != nil {
 		return nil, err
 	}
