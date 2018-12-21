@@ -3,9 +3,16 @@ package main
 import (
 	"context"
 
+	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/web/server"
 )
 
 func main() {
-	server.Run(context.Background())
+	app, err := app.New()
+	if err != nil {
+		panic(err)
+	}
+
+	err = server.Run(context.Background(), app)
+	app.Logger.Info(err.Error())
 }

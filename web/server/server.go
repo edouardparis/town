@@ -10,10 +10,12 @@ import (
 
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
+
+	"git.iiens.net/edouardparis/town/app"
 )
 
 // Run the server
-func Run(ctx context.Context) error {
+func Run(ctx context.Context, app *app.App) error {
 	g, ctx := errgroup.WithContext(ctx)
 
 	// Signal handler
@@ -22,6 +24,7 @@ func Run(ctx context.Context) error {
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 		select {
 		case s := <-c:
+			app.Logger.Info("Interrupt peacefully server")
 			return fmt.Errorf("Got signal %v", s)
 		case <-ctx.Done():
 			return nil
@@ -33,9 +36,10 @@ func Run(ctx context.Context) error {
 		cerr := make(chan error)
 		srv := http.Server{
 			Addr:    ":8080",
-			Handler: Routes(ctx),
+			Handler: Routes(ctx, app),
 		}
 
+		app.Logger.Info("listening on port :8080")
 		go func() { cerr <- errors.WithStack(srv.ListenAndServe()) }()
 		select {
 		case err := <-cerr:
