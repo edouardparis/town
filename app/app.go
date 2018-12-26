@@ -2,19 +2,24 @@ package app
 
 import (
 	"git.iiens.net/edouardparis/town/logging"
+	"git.iiens.net/edouardparis/town/store"
 )
 
 type App struct {
 	Logger logging.Logger
+	Store  store.Store
 }
 
-func New() (*App, error) {
-	logger, err := logging.NewCliLogger(&logging.Config{
-		Verbose: true,
-	})
+func New(c *Config) (*App, error) {
+	logger, err := logging.NewCliLogger(c.loggerConfig)
 	if err != nil {
 		return nil, err
 	}
 
-	return &App{logger}, nil
+	s, err := store.New(c.storeConfig, logger)
+	if err != nil {
+		return nil, err
+	}
+
+	return &App{Logger: logger, Store: s}, nil
 }

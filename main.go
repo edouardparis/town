@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	app, err := app.New()
+	app, err := app.New(&app.Config{})
 	if err != nil {
 		panic(err)
 	}

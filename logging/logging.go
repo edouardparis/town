@@ -12,6 +12,10 @@ func String(k, v string) zap.Field {
 	return zap.String(k, v)
 }
 
+func Error(v error) zap.Field {
+	return zap.Error(v)
+}
+
 type Config struct {
 	Verbose bool
 }
