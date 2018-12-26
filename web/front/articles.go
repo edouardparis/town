@@ -28,6 +28,6 @@ func ArticleDetail(a *app.App) http.HandlerFunc {
 			http.Error(w, http.StatusText(422), 422)
 			return
 		}
-		w.Write([]byte(fmt.Sprintf("title:%s", article.Title)))
+		w.Write([]byte(fmt.Sprintf("title:%s, address:%s", article.Title, article.Address.Value)))
 	}
 }

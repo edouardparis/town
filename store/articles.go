@@ -12,11 +12,11 @@ import (
 )
 
 type Articles struct {
-	store Store
+	Store
 }
 
 func NewArticles(s Store) *Articles {
-	return &Articles{store: s}
+	return &Articles{s}
 }
 
 func (a Articles) GetByID(ctx context.Context, id int64) (*models.Article, error) {
@@ -26,7 +26,7 @@ func (a Articles) GetByID(ctx context.Context, id int64) (*models.Article, error
 		From(article.TableName()).
 		Where(lk.Condition("id").Equal(id))
 
-	err := a.store.Get(ctx, q, article)
+	err := a.Get(ctx, q, article)
 	if err != nil {
 		if !makroud.IsErrNoRows(err) {
 			return nil, errors.Wrapf(err, "cannot retrieve article with ID: %d", id)
@@ -49,7 +49,7 @@ func (a Articles) GetBySlug(ctx context.Context, slug string) (*models.Article, 
 		From(article.TableName()).
 		Where(lk.Condition("slug").Equal(slug))
 
-	err := a.store.Get(ctx, q, article)
+	err := a.Get(ctx, q, article)
 	if err != nil {
 		if !makroud.IsErrNoRows(err) {
 			return nil, errors.Wrapf(err, "cannot retrieve article with ID: %s", slug)
@@ -89,7 +89,7 @@ func (a *Articles) PreloadList(ctx context.Context, articles *[]models.Article) 
 		return nil
 	}
 
-	return makroud.Preload(ctx, a.store.Conn(), articles,
+	return makroud.Preload(ctx, a.Conn(), articles,
 		makroud.WithPreloadField("Address"),
 		makroud.WithPreloadField("Node"),
 	)
