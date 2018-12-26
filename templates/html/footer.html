@@ -13,38 +13,25 @@
               <ul class="list-unstyled text-small">
                 <li><a class="text-muted" href="#">Articles</a></li>
                 <li><a class="text-muted" href="#">Addresses</a></li>
-                <li><a class="text-muted" href="#">Account</a></li>
               </ul>
             </div>
             <div class="col-6 col-md text-right">
               <h5>About</h5>
               <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Privacy</a></li>
-                <li><a class="text-muted" href="#">Terms</a></li>
-                <li><a class="text-muted" href="#">Help</a></li>
+                <li><a class="text-muted" href="/about">about</a></li>
               </ul>
             </div>
           </div>
         </div>
         <div class="my-5 pt-5 text-muted text-center text-small">
         <small class="mb-1">Powered By
-          <a href="https://strike.acinq.co/">Strike ( Acinq )</a>
           - <a href="https://getbootstrap.com">Bootstrap</a>
         </small>
         </div>
       </footer>
   </body>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="{% static 'town/bootstrap.min.js' %}"></script>
-  <script src="{% static 'town/bootstrap.bundle.min.js' %}"></script>
-  <script>$(function () {
-    $('[data-toggle="popover"]').popover({
-      html: true,
-      content: function() {
-        return $('#popover_content_wrapper').html();
-      }
-    });
-  })
-  </script>
-  </html>
+  <script src="static/front/bootstrap.min.js"></script>
+  <script src="static/front/bootstrap.bundle.min.js"></script>
+</html>
 {{ end }}
