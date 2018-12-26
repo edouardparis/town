@@ -5,8 +5,10 @@ Revises:
 Create Date: 2018-12-21 17:07:26.432233
 
 """
-from alembic import op
+from alembic import op, context
 import sqlalchemy as sa
+
+from utils.sql import insert_data
 
 
 # revision identifiers, used by Alembic.
@@ -46,7 +48,7 @@ def upgrade():
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('slug', sa.String(100), nullable=False),
 
-        sa.Column('current_id', sa.Integer, sa.ForeignKey('town_slug.id', name=op.f('town_slug_current_iid_fkey')), nullable=True),
+        sa.Column('current_id', sa.Integer, sa.ForeignKey('town_slug.id', name=op.f('town_slug_current_id_fkey')), nullable=True),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     )
@@ -76,6 +78,12 @@ def upgrade():
     op.create_index(op.f('town_article_address_id'), 'town_article', ['address_id'])
     op.create_index(op.f('town_article_node_id'), 'town_article', ['node_id'])
     op.create_index(op.f('town_article_slug_id'), 'town_article', ['slug_id'])
+
+    if 'with-bootstrap' in context.get_x_argument(as_dictionary=False):
+        from bootstrap import slugs, articles
+
+        insert_data("town_slug", slugs)
+        insert_data("town_article", articles)
 
 
 def downgrade():
