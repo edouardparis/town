@@ -6,6 +6,6 @@ slugs = [
     {
         "id": 1,
         "slug": "hello-world",
-        "created_at": date(2018, 11, 31),
+        "created_at": date(2018, 10, 31),
     }
 ]

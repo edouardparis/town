@@ -8,8 +8,6 @@ Create Date: 2018-12-21 17:07:26.432233
 from alembic import op, context
 import sqlalchemy as sa
 
-from utils.sql import insert_data
-
 
 # revision identifiers, used by Alembic.
 revision = '51638789f439'
@@ -80,7 +78,9 @@ def upgrade():
     op.create_index(op.f('town_article_slug_id'), 'town_article', ['slug_id'])
 
     if 'with-bootstrap' in context.get_x_argument(as_dictionary=False):
-        from bootstrap import slugs, articles
+        from bootstrap.utils import insert_data
+        from bootstrap.slugs import slugs
+        from bootstrap.articles import articles
 
         insert_data("town_slug", slugs)
         insert_data("town_article", articles)
