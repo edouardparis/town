@@ -27,17 +27,19 @@ def upgrade():
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     )
+    op.create_unique_constraint('uq_node_pub_key', 'town_node', ['pub_key'])
 
     op.create_table(
         "town_address",
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('address', sa.String(35), nullable=False),
+        sa.Column('value', sa.String(35), nullable=False),
         sa.Column('amount_collected', sa.Integer, nullable=False),
         sa.Column('amount_received', sa.Integer, nullable=False),
 
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     )
+    op.create_unique_constraint('uq_address_value', 'town_address', ['value'])
 
     op.create_table(
         "town_slug",
@@ -49,6 +51,7 @@ def upgrade():
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     )
     op.create_index(op.f('town_article_current_id'), 'town_slug', ['current_id'])
+    op.create_unique_constraint('uq_slug', 'town_slug', ['slug'])
 
     op.create_table(
         "town_article",
@@ -57,6 +60,7 @@ def upgrade():
         sa.Column('lang', sa.Integer, nullable=False),
         sa.Column('amount_collected', sa.Integer, nullable=False),
         sa.Column('amount_received', sa.Integer, nullable=False),
+        sa.Column('status', sa.Integer, nullable=False),
         sa.Column('subtitle', sa.String(255), nullable=True),
         sa.Column('body_md', sa.Text, nullable=False),
         sa.Column('body_html', sa.Text, nullable=False),
