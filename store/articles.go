@@ -15,6 +15,10 @@ type Articles struct {
 	store Store
 }
 
+func NewArticles(s Store) *Articles {
+	return &Articles{store: s}
+}
+
 func (a Articles) GetByID(ctx context.Context, id int64) (*models.Article, error) {
 	article := &models.Article{}
 
@@ -26,6 +30,29 @@ func (a Articles) GetByID(ctx context.Context, id int64) (*models.Article, error
 	if err != nil {
 		if !makroud.IsErrNoRows(err) {
 			return nil, errors.Wrapf(err, "cannot retrieve article with ID: %d", id)
+		}
+		return nil, failures.ErrNotFound
+	}
+
+	err = a.Preload(ctx, article)
+	if err != nil {
+		return nil, err
+	}
+
+	return article, nil
+}
+
+func (a Articles) GetBySlug(ctx context.Context, slug string) (*models.Article, error) {
+	article := &models.Article{}
+
+	q := lk.Select(columns(article)).
+		From(article.TableName()).
+		Where(lk.Condition("slug").Equal(slug))
+
+	err := a.store.Get(ctx, q, article)
+	if err != nil {
+		if !makroud.IsErrNoRows(err) {
+			return nil, errors.Wrapf(err, "cannot retrieve article with ID: %s", slug)
 		}
 		return nil, failures.ErrNotFound
 	}

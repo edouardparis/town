@@ -12,9 +12,9 @@ import (
 )
 
 // Routes register all the API urls and handlers to the router.
-func Routes(ctx context.Context, app *app.App) http.Handler {
+func Routes(ctx context.Context, a *app.App) http.Handler {
 	r := chi.NewRouter()
-	r.Mount("/", front.NewRouter())
+	r.Mount("/", front.NewRouter(a))
 	r.Mount("/api", api.NewRouter())
 	return chi.ServerBaseContext(ctx, r)
 }

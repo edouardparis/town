@@ -10,13 +10,15 @@ import (
 	chirender "github.com/go-chi/render"
 	"github.com/pkg/errors"
 
+	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/templates"
 )
 
-func NewRouter() http.Handler {
+func NewRouter(a *app.App) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", handle(home))
+	r.Route("/articles", articlesRoutes(a))
 
 	workDir, _ := os.Getwd()
 	FileServer(r, "/static", http.Dir(filepath.Join(workDir, "static")))
