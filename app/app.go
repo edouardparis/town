@@ -11,12 +11,12 @@ type App struct {
 }
 
 func New(c *Config) (*App, error) {
-	logger, err := logging.NewCliLogger(c.LoggerConfig)
+	logger, err := logging.NewCliLogger(&c.LoggerConfig)
 	if err != nil {
 		return nil, err
 	}
 
-	s, err := store.New(c.StoreConfig, logger)
+	s, err := store.New(&c.StoreConfig, logger)
 	if err != nil {
 		return nil, err
 	}

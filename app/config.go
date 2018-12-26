@@ -11,8 +11,8 @@ import (
 )
 
 type Config struct {
-	LoggerConfig *logging.Config `json:"logger"`
-	StoreConfig  *store.Config   `json:"store"`
+	LoggerConfig logging.Config `json:"logger"`
+	StoreConfig  store.Config   `json:"store"`
 }
 
 func NewConfig(path string) (*Config, error) {
