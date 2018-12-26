@@ -17,5 +17,5 @@ type Address struct {
 
 // TableName implements Model interface.
 func (Address) TableName() string {
-	return "town_node"
+	return "town_address"
 }
