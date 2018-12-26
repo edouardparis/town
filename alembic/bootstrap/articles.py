@@ -14,6 +14,7 @@ articles = [
         "body_html": "This is the body html of a new article",
         "body_md": "This is the body md of a new article",
         "slug_id": 1,
+        "address_id": 1,
         "created_at": date(2018, 10, 31),
     }
 ]

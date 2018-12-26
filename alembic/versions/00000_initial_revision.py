@@ -80,8 +80,10 @@ def upgrade():
     if 'with-bootstrap' in context.get_x_argument(as_dictionary=False):
         from bootstrap.utils import insert_data
         from bootstrap.slugs import slugs
+        from bootstrap.addresses import addresses
         from bootstrap.articles import articles
 
+        insert_data("town_address", addresses)
         insert_data("town_slug", slugs)
         insert_data("town_article", articles)
 
