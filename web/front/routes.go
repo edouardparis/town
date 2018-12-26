@@ -8,23 +8,24 @@ import (
 	"github.com/pkg/errors"
 
 	"git.iiens.net/edouardparis/town/failures"
+	"git.iiens.net/edouardparis/town/templates"
 )
 
 func NewRouter() http.Handler {
 	r := chi.NewRouter()
-	r.Get("/hi", func(w http.ResponseWriter, r *http.Request) {
-		render(w, r, "<html><body><hi>Hi lizard</hi></body></html>", http.StatusOK)
-	})
+	r.Get("/", handle(home))
 	return r
 }
 
-func render(w http.ResponseWriter, r *http.Request, resource string, httpStatus int) {
-	if resource == "" && httpStatus == http.StatusNoContent {
-		chirender.NoContent(w, r)
+func render(w http.ResponseWriter, r *http.Request, template string, resource interface{}, httpStatus int) error {
+	err := templates.HTMLTemplates.ExecuteTemplate(w, template, resource)
+	if err != nil {
+		return err
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	chirender.Status(r, httpStatus)
-	chirender.HTML(w, r, resource)
+	return nil
 }
 
 type handlerFunc func(w http.ResponseWriter, r *http.Request) error
