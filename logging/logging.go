@@ -17,14 +17,10 @@ func Error(v error) zap.Field {
 }
 
 type Config struct {
-	Verbose bool
 }
 
 func NewCliLogger(c *Config) (Logger, error) {
 	cfg := zap.NewDevelopmentConfig()
-	cfg.OutputPaths = []string{}
-	if c.Verbose {
-		cfg.OutputPaths = []string{"stdout"}
-	}
+	cfg.OutputPaths = []string{"stdout"}
 	return cfg.Build()
 }
