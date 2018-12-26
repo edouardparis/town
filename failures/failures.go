@@ -1,6 +1,9 @@
 package failures
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
 // Error can be any error.
 type Error struct {
@@ -10,4 +13,9 @@ type Error struct {
 
 func (e Error) Error() string {
 	return fmt.Sprintf("%d - %s", e.Code, e.Message)
+}
+
+var ErrNotFound = Error{
+	Code:    http.StatusNotFound,
+	Message: http.StatusText(http.StatusNotFound),
 }

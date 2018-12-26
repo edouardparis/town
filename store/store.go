@@ -51,6 +51,7 @@ func NewConnector(cfg *Config, logger logging.Logger) (makroud.Driver, error) {
 // ----------------------------------------------------------------------------
 
 type Store interface {
+	Conn() makroud.Driver
 	Get(context.Context, lkb.Builder, interface{}) error
 	Find(context.Context, lkb.Builder, interface{}) error
 	Exec(context.Context, lkb.Builder, ...interface{}) error
@@ -60,6 +61,10 @@ type Store interface {
 
 type store struct {
 	db makroud.Driver
+}
+
+func (s *store) Conn() makroud.Driver {
+	return s.db
 }
 
 // Get is a shortcut to retrieve a slice of instances from a Loukoum builder.

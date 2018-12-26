@@ -57,6 +57,7 @@ def upgrade():
         "town_article",
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('title', sa.String(100), nullable=False),
+        sa.Column('slug', sa.String(100), nullable=False),
         sa.Column('lang', sa.Integer, nullable=False),
         sa.Column('amount_collected', sa.Integer, nullable=False),
         sa.Column('amount_received', sa.Integer, nullable=False),
@@ -67,7 +68,6 @@ def upgrade():
 
         sa.Column('address_id', sa.Integer, sa.ForeignKey('town_address.id', name=op.f('town_address_id_fkey')), nullable=True),
         sa.Column('node_id', sa.Integer, sa.ForeignKey('town_node.id', name=op.f('town_node_id_fkey')), nullable=True),
-        sa.Column('slug_id', sa.Integer, sa.ForeignKey('town_slug.id', name=op.f('town_slug_id_fkey')), nullable=True),
 
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
@@ -75,7 +75,8 @@ def upgrade():
     )
     op.create_index(op.f('town_article_address_id'), 'town_article', ['address_id'])
     op.create_index(op.f('town_article_node_id'), 'town_article', ['node_id'])
-    op.create_index(op.f('town_article_slug_id'), 'town_article', ['slug_id'])
+    op.create_index(op.f('town_article_slug'), 'town_article', ['slug'])
+    op.create_unique_constraint('uq_article_slug', 'town_article', ['slug'])
 
     if 'with-bootstrap' in context.get_x_argument(as_dictionary=False):
         from bootstrap.utils import insert_data

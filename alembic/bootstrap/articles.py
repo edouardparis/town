@@ -13,7 +13,7 @@ articles = [
         "subtitle": "This is the subtitle of a new article",
         "body_html": "This is the body html of a new article",
         "body_md": "This is the body md of a new article",
-        "slug_id": 1,
+        "slug": "hello-world",
         "address_id": 1,
         "created_at": date(2018, 10, 31),
     }

@@ -17,6 +17,7 @@ type Article struct {
 	AmountCollected int64          `makroud:"column:amount_collected"`
 	AmountReceived  int64          `makroud:"column:amount_received"`
 	Status          int64          `makroud:"column:status"`
+	Slug            string         `makroud:"column:slug"`
 
 	CreatedAt   time.Time   `makroud:"column:created_at"`
 	UpdatedAt   pq.NullTime `makroud:"column:updated_at"`
@@ -27,9 +28,6 @@ type Article struct {
 
 	NodeID sql.NullInt64 `makroud:"column:node_id,fk:town_node"`
 	Node   *Node         `makroud:"relation:node_id"`
-
-	SlugID int64 `makroud:"column:slug_id,fk:town_slug"`
-	Slug   *Slug `makroud:"relation:slug_id"`
 }
 
 // TableName implements Model interface.
