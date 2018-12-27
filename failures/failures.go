@@ -19,3 +19,8 @@ var ErrNotFound = Error{
 	Code:    http.StatusNotFound,
 	Message: http.StatusText(http.StatusNotFound),
 }
+
+var ErrBadRequest = Error{
+	Code:    http.StatusBadRequest,
+	Message: http.StatusText(http.StatusBadRequest),
+}

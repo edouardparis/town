@@ -7,6 +7,10 @@ github.com/gofrs/uuid
 # github.com/lib/pq v1.0.0
 github.com/lib/pq
 github.com/lib/pq/oid
+# github.com/mholt/binding v0.3.0
+github.com/mholt/binding
+# github.com/microcosm-cc/bluemonday v1.0.2
+github.com/microcosm-cc/bluemonday
 # github.com/oklog/ulid v1.3.1
 github.com/oklog/ulid
 # github.com/pkg/errors v0.8.0
@@ -14,13 +18,13 @@ github.com/pkg/errors
 # github.com/serenize/snaker v0.0.0-20171204205717-a683aaf2d516
 github.com/serenize/snaker
 # github.com/ulule/loukoum v0.0.0-20181005092552-17a3fdfd801e
+github.com/ulule/loukoum
 github.com/ulule/loukoum/builder
 github.com/ulule/loukoum/parser
 github.com/ulule/loukoum/stmt
 github.com/ulule/loukoum/types
 github.com/ulule/loukoum/lexer
 github.com/ulule/loukoum/token
-github.com/ulule/loukoum
 github.com/ulule/loukoum/format
 # github.com/ulule/makroud v0.0.0-20181108154031-ba2ad5a5bdf1
 github.com/ulule/makroud
@@ -41,5 +45,8 @@ go.uber.org/zap/zapcore
 go.uber.org/zap/buffer
 go.uber.org/zap/internal/color
 go.uber.org/zap/internal/exit
+# golang.org/x/net v0.0.0-20181220203305-927f97764cc3
+golang.org/x/net/html
+golang.org/x/net/html/atom
 # golang.org/x/sync v0.0.0-20181108010431-42b317875d0f
 golang.org/x/sync/errgroup

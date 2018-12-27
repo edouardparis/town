@@ -119,3 +119,28 @@ func (a *Articles) PreloadList(ctx context.Context, articles *[]models.Article) 
 		makroud.WithPreloadField("Node"),
 	)
 }
+
+func (a *Articles) Create(ctx context.Context, article *models.Article) error {
+	query := lk.Insert(article.TableName()).
+		Set(
+			lk.Pair("title", article.Title),
+			lk.Pair("subtitle", article.Subtitle),
+			lk.Pair("body", article.Body),
+			lk.Pair("lang", article.Lang),
+			lk.Pair("amount_collected", article.AmountCollected),
+			lk.Pair("amount_received", article.AmountReceived),
+			lk.Pair("status", article.Status),
+			lk.Pair("slug", article.Slug),
+			lk.Pair("created_at", article.CreatedAt),
+			lk.Pair("updated_at", article.UpdatedAt),
+			lk.Pair("published_at", article.PublishedAt),
+			lk.Pair("address_id", article.AddressID),
+			lk.Pair("node_id", article.NodeID),
+		).Returning("id")
+	err := a.Save(ctx, query, article)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	return nil
+}

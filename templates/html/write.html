@@ -1,8 +1,9 @@
 {{ template "header" . }}
 <form id="form" action="" method="post">
-  Name: <input type="text" name="name"><br>
-  Age: <input type="text" name="email"><br>
-  FavColor: <input type="text" name="favc"><br>
+  Title: <input type="text" name="title"><br>
+  Subtitle: <input type="text" name="subtitle"><br>
+  Body: <input type="text" name="body"><br>
+  Lang: <input type="text" name="lang"><br>
   <input id="submit" type="button" name="submit" value="submit">
 </form>
 {{ template "footer" . }}
@@ -12,9 +13,10 @@ $(document).ready(function(){
   $("#submit").on('click', function(){
     // send ajax
     $.ajax({
-      url: '{{ .Header.URLs.Website }}', // url where to submit the request
+      url: '{{ .Header.URLs.Website }}/api/articles/write', // url where to submit the request
       type : "POST", // type of action POST || GET
       dataType : 'json', // data type
+      contentType: "application/x-www-form-urlencoded",
       data : $("#form").serialize(), // post data || get data
       success : function(result) {
         // you can see the result from the console
