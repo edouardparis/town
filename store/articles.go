@@ -7,6 +7,7 @@ import (
 	lk "github.com/ulule/loukoum"
 	"github.com/ulule/makroud"
 
+	"git.iiens.net/edouardparis/town/constants"
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/models"
 )
@@ -63,6 +64,30 @@ func (a Articles) GetBySlug(ctx context.Context, slug string) (*models.Article, 
 	}
 
 	return article, nil
+}
+
+func (a Articles) ListPublished(ctx context.Context) ([]models.Article, error) {
+	articles := []models.Article{}
+
+	model := models.Article{}
+	q := lk.Select(columns(model)).
+		From(model.TableName()).
+		Where(lk.Condition("status").Equal(constants.ArticleStatusPublished))
+
+	err := a.Find(ctx, q, &articles)
+	if err != nil {
+		if !makroud.IsErrNoRows(err) {
+			return nil, errors.Wrapf(err, "cannot retrieve published articles")
+		}
+		return nil, failures.ErrNotFound
+	}
+
+	err = a.PreloadList(ctx, &articles)
+	if err != nil {
+		return nil, err
+	}
+
+	return articles, nil
 }
 
 // Preload populates the given article.

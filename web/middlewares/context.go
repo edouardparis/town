@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi"
 
 	"git.iiens.net/edouardparis/town/app"
+	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/models"
 	"git.iiens.net/edouardparis/town/store"
 )
@@ -27,12 +28,18 @@ func ArticleFromCtx(ctx context.Context) (*models.Article, bool) {
 }
 
 func ArticleCtx(a *app.App, handle HandleError) Middleware {
+	s := store.NewArticles(a.Store)
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			slug := chi.URLParam(r, "slug")
-			article, err := store.NewArticles(a.Store).GetBySlug(r.Context(), slug)
+			article, err := s.GetBySlug(r.Context(), slug)
 			if err != nil {
 				handle(w, r, err)
+				return
+			}
+
+			if !article.IsPublished() {
+				handle(w, r, failures.ErrNotFound)
 				return
 			}
 			ctx := context.WithValue(r.Context(), articleKey, article)

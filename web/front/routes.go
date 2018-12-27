@@ -20,6 +20,7 @@ func NewRouter(a *app.App) http.Handler {
 	r := chi.NewRouter()
 	handle := newHandle(a)
 	r.Get("/", handle(Home))
+	r.Get("/about", handle(About))
 	r.Route("/articles", articlesRoutes(a))
 
 	workDir, _ := os.Getwd()

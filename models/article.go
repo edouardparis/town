@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"github.com/lib/pq"
+
+	"git.iiens.net/edouardparis/town/constants"
 )
 
 type Article struct {
@@ -32,4 +34,8 @@ type Article struct {
 // TableName implements Model interface.
 func (Article) TableName() string {
 	return "town_article"
+}
+
+func (a Article) IsPublished() bool {
+	return a.Status == constants.ArticleStatusPublished
 }

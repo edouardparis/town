@@ -1,6 +1,7 @@
 package resources
 
 import (
+	"fmt"
 	"time"
 
 	"git.iiens.net/edouardparis/town/constants"
@@ -23,6 +24,10 @@ type Article struct {
 
 	Address *Address `json:"address,omitempty"`
 	Node    *Node    `json:"node,omitempty"`
+}
+
+func (a Article) AbsoluteURL() string {
+	return fmt.Sprintf("articles/%s", a.Slug)
 }
 
 func NewArticle(article *models.Article) *Article {
@@ -62,4 +67,13 @@ func NewArticle(article *models.Article) *Article {
 	}
 
 	return resource
+}
+
+func NewArticleList(articles []models.Article) []Article {
+	resources := make([]Article, len(articles))
+	for i := range articles {
+		resource := NewArticle(&articles[i])
+		resources[i] = *resource
+	}
+	return resources
 }

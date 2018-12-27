@@ -9,14 +9,16 @@
 </div>
 <div class="row">
   <div class="col-md-8 list-group">
-    <a href="" class="list-group-item list-group-item-action flex-column align-items-start">
+    {{ range .Articles }}
+    <a href="{{ $.Header.URLs.Website }}/{{ .AbsoluteURL }}" class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1"></h5>
+        <h5 class="mb-1">{{ .Title }}</h5>
         <small></small>
       </div>
-      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+      <p class="mb-1">{{ .Subtitle }}</p>
       <small>Read more &rarr;</small>
     </a>
+    {{ end }}
   </div>
 </div>
 {{ template "footer" . }}
