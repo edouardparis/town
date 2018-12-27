@@ -1,7 +1,6 @@
-package front
+package api
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -29,6 +28,9 @@ func ArticleDetail(a *app.App, handle middlewares.HandleError) http.HandlerFunc 
 			handle(w, r, failures.ErrNotFound)
 			return
 		}
-		w.Write([]byte(fmt.Sprintf("title:%s, address:%s", article.Title, article.Address.Value)))
+		err := render(w, r, article, http.StatusOK)
+		if err != nil {
+			handle(w, r, err)
+		}
 	}
 }

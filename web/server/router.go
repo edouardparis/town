@@ -15,6 +15,6 @@ import (
 func Routes(ctx context.Context, a *app.App) http.Handler {
 	r := chi.NewRouter()
 	r.Mount("/", front.NewRouter(a))
-	r.Mount("/api", api.NewRouter())
+	r.Mount("/api", api.NewRouter(a))
 	return chi.ServerBaseContext(ctx, r)
 }

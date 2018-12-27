@@ -1,42 +1,62 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 
 	"github.com/go-chi/chi"
 	chirender "github.com/go-chi/render"
 	"github.com/pkg/errors"
 
+	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
+	"git.iiens.net/edouardparis/town/web/middlewares"
 )
 
-func NewRouter() http.Handler {
+func NewRouter(a *app.App) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/hi", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hi from the api"))
-	})
+	r.Route("/articles", articlesRoutes(a))
 	return r
 }
 
-type handlerFunc func(w http.ResponseWriter, r *http.Request) error
-
-func handle(handler handlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		err := handler(w, r)
-		if err == nil {
-			return
-		}
-
-		var status int
-		switch cerr := errors.Cause(err).(type) {
-		case failures.Error:
-			status = cerr.Code
-			err = cerr
-		default:
-			status = http.StatusInternalServerError
-		}
-
-		chirender.Status(r, status)
-		chirender.JSON(w, r, err)
+func render(w http.ResponseWriter, r *http.Request, resource interface{}, httpStatus int) error {
+	chirender.Status(r, httpStatus)
+	buf := &bytes.Buffer{}
+	enc := json.NewEncoder(buf)
+	enc.SetEscapeHTML(true)
+	err := enc.Encode(resource)
+	if err != nil {
+		return err
 	}
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	_, err = w.Write(buf.Bytes())
+	return err
+}
+
+type view func(*app.App, middlewares.HandleError) http.HandlerFunc
+
+func newHandle(a *app.App) func(view) http.HandlerFunc {
+	return func(fn view) http.HandlerFunc {
+		return fn(a, handleError)
+	}
+}
+
+func handleError(w http.ResponseWriter, r *http.Request, err error) {
+	if err == nil {
+		return
+	}
+
+	var status int
+	switch cerr := errors.Cause(err).(type) {
+	case failures.Error:
+		status = cerr.Code
+		err = cerr
+	default:
+		status = http.StatusInternalServerError
+	}
+
+	chirender.Status(r, status)
+	chirender.JSON(w, r, err)
 }

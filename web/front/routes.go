@@ -13,11 +13,13 @@ import (
 	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/templates"
+	"git.iiens.net/edouardparis/town/web/middlewares"
 )
 
 func NewRouter(a *app.App) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", handle(home))
+	handle := newHandle(a)
+	r.Get("/", handle(Home))
 	r.Route("/articles", articlesRoutes(a))
 
 	workDir, _ := os.Getwd()
@@ -57,25 +59,28 @@ func render(w http.ResponseWriter, r *http.Request, template string, resource in
 	return nil
 }
 
-type handlerFunc func(w http.ResponseWriter, r *http.Request) error
+type view func(*app.App, middlewares.HandleError) http.HandlerFunc
 
-func handle(handler handlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		err := handler(w, r)
-		if err == nil {
-			return
-		}
-
-		var status int
-		switch cerr := errors.Cause(err).(type) {
-		case failures.Error:
-			status = cerr.Code
-			err = cerr
-		default:
-			status = http.StatusInternalServerError
-		}
-
-		chirender.Status(r, status)
-		chirender.JSON(w, r, err)
+func newHandle(a *app.App) func(view) http.HandlerFunc {
+	return func(fn view) http.HandlerFunc {
+		return fn(a, handleError)
 	}
+}
+
+func handleError(w http.ResponseWriter, r *http.Request, err error) {
+	if err == nil {
+		return
+	}
+
+	var status int
+	switch cerr := errors.Cause(err).(type) {
+	case failures.Error:
+		status = cerr.Code
+		err = cerr
+	default:
+		status = http.StatusInternalServerError
+	}
+
+	chirender.Status(r, status)
+	chirender.JSON(w, r, err)
 }
