@@ -10,6 +10,18 @@
 
     <title></title>
 
+    <style>
+    @font-face {
+      font-family: "Playfair Display";
+      src: url({{ .Header.URLs.Website }}/static/front/fonts/PlayfairDisplay-Regular.otf) format("opentype");
+    }
+
+    @font-face {
+      font-family: "Playfair Display Bold";
+      src: url({{ .Header.URLs.Website }}/static/front/fonts/PlayfairDisplay-Bold.otf) format("opentype");
+    }
+    </style>
+
     <!-- Bootstrap core CSS -->
     <link href="{{ .Header.URLs.Website }}/static/front/bootstrap.min.css" type="text/css" rel="stylesheet">
 
