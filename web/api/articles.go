@@ -7,6 +7,7 @@ import (
 
 	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
+	"git.iiens.net/edouardparis/town/resources"
 	"git.iiens.net/edouardparis/town/web/middlewares"
 )
 
@@ -28,7 +29,8 @@ func ArticleDetail(a *app.App, handle middlewares.HandleError) http.HandlerFunc 
 			handle(w, r, failures.ErrNotFound)
 			return
 		}
-		err := render(w, r, article, http.StatusOK)
+		resource := resources.NewArticle(article)
+		err := render(w, r, resource, http.StatusOK)
 		if err != nil {
 			handle(w, r, err)
 		}
