@@ -34,6 +34,7 @@ func ArticleDetail(a *app.App, handle middlewares.HandleError) http.HandlerFunc 
 			return
 		}
 		data.Article = resources.NewArticle(article)
+		data.Header = resources.NewHeader(a.Info)
 		err := render(w, r, "article.html", data, http.StatusOK)
 		if err != nil {
 			handle(w, r, failures.ErrNotFound)
