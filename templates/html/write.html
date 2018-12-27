@@ -1,0 +1,30 @@
+{{ template "header" . }}
+<form id="form" action="" method="post">
+  Name: <input type="text" name="name"><br>
+  Age: <input type="text" name="email"><br>
+  FavColor: <input type="text" name="favc"><br>
+  <input id="submit" type="button" name="submit" value="submit">
+</form>
+{{ template "footer" . }}
+<script>
+$(document).ready(function(){
+  // click on button submit
+  $("#submit").on('click', function(){
+    // send ajax
+    $.ajax({
+      url: '{{ .Header.URLs.Website }}', // url where to submit the request
+      type : "POST", // type of action POST || GET
+      dataType : 'json', // data type
+      data : $("#form").serialize(), // post data || get data
+      success : function(result) {
+        // you can see the result from the console
+        // tab of the developer tools
+        console.log(result);
+      },
+      error: function(xhr, resp, text) {
+        console.log(xhr, resp, text);
+      }
+    })
+  });
+});
+</script>
