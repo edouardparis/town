@@ -2,12 +2,14 @@ package app
 
 import (
 	"git.iiens.net/edouardparis/town/logging"
+	"git.iiens.net/edouardparis/town/models"
 	"git.iiens.net/edouardparis/town/store"
 )
 
 type App struct {
 	Logger logging.Logger
 	Store  store.Store
+	Info   *models.Info
 }
 
 func New(c *Config) (*App, error) {
@@ -21,5 +23,15 @@ func New(c *Config) (*App, error) {
 		return nil, err
 	}
 
-	return &App{Logger: logger, Store: s}, nil
+	i := NewInfo(&c.InfoConfig)
+
+	return &App{Logger: logger, Store: s, Info: i}, nil
+}
+
+func NewInfo(c *InfoConfig) *models.Info {
+	return &models.Info{
+		URLs: models.URLs{
+			Website: c.URLs.Website,
+		},
+	}
 }

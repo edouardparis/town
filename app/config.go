@@ -13,6 +13,13 @@ import (
 type Config struct {
 	LoggerConfig logging.Config `json:"logger"`
 	StoreConfig  store.Config   `json:"store"`
+	InfoConfig   InfoConfig     `json:"info"`
+}
+
+type InfoConfig struct {
+	URLs struct {
+		Website string `json:"website"`
+	} `json:"urls"`
 }
 
 func NewConfig(path string) (*Config, error) {

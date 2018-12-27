@@ -23,6 +23,7 @@ func articlesRoutes(a *app.App) func(r chi.Router) {
 
 func ArticleDetail(a *app.App, handle middlewares.HandleError) http.HandlerFunc {
 	data := struct {
+		Header  *resources.Header
 		Article *resources.Article
 	}{}
 	return func(w http.ResponseWriter, r *http.Request) {
