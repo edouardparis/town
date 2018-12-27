@@ -32,7 +32,7 @@ func NewArticle(article *models.Article) *Article {
 
 	resource := &Article{
 		Title:           article.Title,
-		Body:            article.BodyHTML,
+		Body:            article.Body,
 		Lang:            constants.LangIntToStr[article.Lang],
 		AmountCollected: article.AmountCollected,
 		AmountReceived:  article.AmountReceived,

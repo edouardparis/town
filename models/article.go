@@ -11,8 +11,7 @@ type Article struct {
 	ID              int64          `makroud:"column:id,pk"`
 	Title           string         `makroud:"column:title"`
 	Subtitle        sql.NullString `makroud:"column:subtitle"`
-	BodyMD          string         `makroud:"column:body_md"`
-	BodyHTML        string         `makroud:"column:body_html"`
+	Body            string         `makroud:"column:body"`
 	Lang            int64          `makroud:"column:lang"`
 	AmountCollected int64          `makroud:"column:amount_collected"`
 	AmountReceived  int64          `makroud:"column:amount_received"`

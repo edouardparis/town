@@ -63,8 +63,7 @@ def upgrade():
         sa.Column('amount_received', sa.Integer, nullable=False),
         sa.Column('status', sa.Integer, nullable=False),
         sa.Column('subtitle', sa.String(255), nullable=True),
-        sa.Column('body_md', sa.Text, nullable=False),
-        sa.Column('body_html', sa.Text, nullable=False),
+        sa.Column('body', sa.Text, nullable=False),
 
         sa.Column('address_id', sa.Integer, sa.ForeignKey('town_address.id', name=op.f('town_address_id_fkey')), nullable=True),
         sa.Column('node_id', sa.Integer, sa.ForeignKey('town_node.id', name=op.f('town_node_id_fkey')), nullable=True),
