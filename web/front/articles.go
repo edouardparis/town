@@ -8,12 +8,14 @@ import (
 	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/resources"
+	"git.iiens.net/edouardparis/town/store"
 	"git.iiens.net/edouardparis/town/web/middlewares"
 )
 
 func articlesRoutes(a *app.App) func(r chi.Router) {
 	handle := newHandle(a)
 	return func(r chi.Router) {
+		r.Get("/", handle(ArticleList))
 		r.Route("/{slug:[a-z-]+}", func(r chi.Router) {
 			r.Use(middlewares.ArticleCtx(a, handleError))
 			r.Get("/", handle(ArticleDetail))
@@ -36,6 +38,28 @@ func ArticleDetail(a *app.App, handle middlewares.HandleError) http.HandlerFunc 
 		data.Article = resources.NewArticle(article)
 		data.Header = resources.NewHeader(a.Info)
 		err := render(w, r, "article.html", data, http.StatusOK)
+		if err != nil {
+			handle(w, r, failures.ErrNotFound)
+		}
+	}
+}
+
+func ArticleList(a *app.App, handle middlewares.HandleError) http.HandlerFunc {
+	data := struct {
+		Articles []resources.Article
+		Header   *resources.Header
+	}{Header: resources.NewHeader(a.Info)}
+	s := store.NewArticles(a.Store)
+	return func(w http.ResponseWriter, r *http.Request) {
+		articles, err := s.ListPublished(r.Context())
+		if err != nil {
+			handle(w, r, err)
+			return
+		}
+
+		data.Articles = resources.NewArticleList(articles)
+
+		err = render(w, r, "articles.html", data, http.StatusOK)
 		if err != nil {
 			handle(w, r, failures.ErrNotFound)
 		}
