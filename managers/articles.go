@@ -2,6 +2,7 @@ package managers
 
 import (
 	"context"
+	"time"
 
 	"github.com/microcosm-cc/bluemonday"
 
@@ -15,10 +16,11 @@ func ArticleCreate(ctx context.Context, s store.Store, payload *payloads.Article
 	sanitizeArticlePayload(payload)
 
 	article := &models.Article{
-		Title:  payload.Title,
-		Body:   payload.Body,
-		Lang:   constants.LangEN,
-		Status: constants.ArticleStatusPublished,
+		Title:     payload.Title,
+		Body:      payload.Body,
+		Lang:      constants.LangEN,
+		Status:    constants.ArticleStatusPublished,
+		CreatedAt: time.Now().UTC(),
 	}
 
 	if payload.Lang != "" {
