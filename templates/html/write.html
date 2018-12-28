@@ -1,30 +1,111 @@
 {{ template "header" . }}
-<form id="form" action="" method="post">
-  Title: <input type="text" name="title"><br>
-  Subtitle: <input type="text" name="subtitle"><br>
-  Body: <input type="text" name="body"><br>
-  Lang: <input type="text" name="lang"><br>
-  <input id="submit" type="button" name="submit" value="submit">
+<div class="jumbotron">
+<h3>Write</h3>
+</div>
+<form  id="form">
+<div class="row">
+<div class="col-md-8">
+  <div class="form-group">
+    <input type="text" class="form-control" id="title" placeholder="Title">
+    <small id="titleHelp" class="form-text text-muted">required</small>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="lang" placeholder="Lang">
+  </div>
+  <div class="form-group">
+    <textarea class="form-control" rows="3" type="text" id="subtitle" placeholder="Subtitle"></textarea>
+  </div>
+    <div class="form-group">
+      <textarea class="form-control" rows="20" type="text" id="body"></textarea>
+    </div>
+</div>
+<div class="col-md-4">
+  <figure>
+    <small>In order to receive donations</small>
+  </figure>
+    <div class="form-group">
+      <input type="text" class="form-control" id="address" placeholder="address">
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" id="node_pub_key" placeholder="node pubkey">
+    </div>
+
+    <button class="btn btn-primary btn-large btn-block" type="button" id="submit">
+      Publish Article
+    </button>
+
+    <button id="button-modal-payment" type="button" class="btn btn-secondary btn-large btn-block" data-toggle="modal" data-target="#modal-payment">
+      Submit Article: 0.006 €.
+    </button>
+
+    <button id="button-modal-success" type="button" class="btn btn-secondary btn-large btn-block" data-toggle="modal" data-target="#modal-success">
+      Success
+    </button>
+</div>
+</div>
 </form>
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="modal-payment" tabindex="-1" role="dialog" aria-labelledby="modal-payment" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-success" tabindex="-1" role="dialog" aria-labelledby="modal-success" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">👏  Congrats !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Your article has been published</p>
+      </div>
+    </div>
+  </div>
+</div>
 {{ template "footer" . }}
 <script>
 $(document).ready(function(){
   // click on button submit
   $("#submit").on('click', function(){
-    // send ajax
+    var payload = {};
+    payload.title = $("#title").val();
+    payload.lang = $("#lang").val();
+    payload.subtitle = $("#subtitle").val();
+    payload.body = $("#body").val();
+    payload.address = $("#address").val();
+    payload.node_pub_key = $("#node_pub_key").val();
     $.ajax({
-      url: '{{ .Header.URLs.Website }}/api/articles/write', // url where to submit the request
-      type : "POST", // type of action POST || GET
+      url: '{{ .Header.URLs.Website }}/api/articles', // url where to submit the request
+      type : 'POST', // type of action POST || GET
       dataType : 'json', // data type
-      contentType: "application/x-www-form-urlencoded",
-      data : $("#form").serialize(), // post data || get data
+      contentType: 'application/json',
+      data : JSON.stringify(payload), // post data || get data
       success : function(result) {
-        // you can see the result from the console
-        // tab of the developer tools
         console.log(result);
       },
-      error: function(xhr, resp, text) {
-        console.log(xhr, resp, text);
+      error: function(xhr, textStatus, error){
+      console.log(xhr.statusText);
+      console.log(textStatus);
+      console.log(error);
       }
     })
   });

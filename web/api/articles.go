@@ -20,8 +20,9 @@ func articlesRoutes(a *app.App) func(r chi.Router) {
 	return func(r chi.Router) {
 		r.Route("/{slug:[a-z-]+}", func(r chi.Router) {
 			r.With(articleCtx).Get("/", handle(ArticleDetail))
-			r.Post("/", handle(ArticleCreate))
 		})
+
+		r.Post("/", handle(ArticleCreate))
 	}
 }
 
