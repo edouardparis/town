@@ -11,6 +11,7 @@ type Field = zapcore.Field
 
 type Logger interface {
 	Info(string, ...Field)
+	Error(string, ...Field)
 }
 
 func String(k, v string) Field {

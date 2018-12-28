@@ -14,12 +14,12 @@ import (
 
 func articlesRoutes(a *app.App) func(r chi.Router) {
 	handle := newHandle(a)
+	articleCtx := middlewares.ArticleCtx(a, handleError(a.Logger))
 	return func(r chi.Router) {
 		r.Get("/", handle(ArticleList))
 		r.Get("/write", handle(ArticleWrite))
-		r.Route("/{slug:[a-z-]+}", func(r chi.Router) {
-			r.Use(middlewares.ArticleCtx(a, handleError))
-			r.Get("/", handle(ArticleDetail))
+		r.Route("/{slug}", func(r chi.Router) {
+			r.With(articleCtx).Get("/", handle(ArticleDetail))
 		})
 	}
 }

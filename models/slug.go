@@ -9,7 +9,7 @@ import (
 
 type Slug struct {
 	ID        int64         `makroud:"column:id,pk"`
-	Slug      string        `makroud:"column:value"`
+	Slug      string        `makroud:"column:slug"`
 	CurrentID sql.NullInt64 `makroud:"column:current_id,fk:town_slug"`
 	CreatedAt time.Time     `makroud:"column:created_at"`
 	UpdatedAt pq.NullTime   `makroud:"column:updated_at"`

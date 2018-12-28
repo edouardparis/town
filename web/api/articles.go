@@ -16,11 +16,10 @@ import (
 
 func articlesRoutes(a *app.App) func(r chi.Router) {
 	handle := newHandle(a)
+	articleCtx := middlewares.ArticleCtx(a, handleError(a.Logger))
 	return func(r chi.Router) {
 		r.Route("/{slug:[a-z-]+}", func(r chi.Router) {
-			r.With(middlewares.ArticleCtx(a, handleError)).
-				Get("/", handle(ArticleDetail))
-
+			r.With(articleCtx).Get("/", handle(ArticleDetail))
 			r.Post("/", handle(ArticleCreate))
 		})
 	}
