@@ -113,9 +113,11 @@ $(document).ready(function(){
     })
   });
 
+  var chatSocket;
   $("#payment").on('click', function(){
     $('#modal-payment').modal('show')
-      var chatSocket = new WebSocket(
+    if (chatSocket == undefined) {
+      chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/checkout/' + 'hello' + '/');
 
@@ -131,6 +133,7 @@ $(document).ready(function(){
       chatSocket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
       };
+    }
   });
 });
 </script>
