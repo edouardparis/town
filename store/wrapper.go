@@ -1,6 +1,7 @@
 package store
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -52,7 +53,7 @@ type Wrapper struct {
 
 // Log will emmit given queries on wrapper's attached Logger and Meter.
 func (w *Wrapper) Log(query string, delta time.Duration) {
-	_, err := parser.Analyze(query, parser.AnalyzerOption{
+	analysis, err := parser.Analyze(query, parser.AnalyzerOption{
 		Operation: true,
 		Table:     true,
 	})
@@ -61,8 +62,16 @@ func (w *Wrapper) Log(query string, delta time.Duration) {
 		return
 	}
 
-	// table := strings.Replace(analysis.Table, ".", "_", -1)
-	// operation := strings.Replace(analysis.Operation, ".", "_", -1)
+	table := strings.Replace(analysis.Table, ".", "_", -1)
+	operation := strings.Replace(analysis.Operation, ".", "_", -1)
+
+	var metric string
+	if w.pghostname == "" {
+		metric = fmt.Sprintf("postgres.%s.%s.%s", w.hostname, table, operation)
+	} else {
+		metric = fmt.Sprintf("postgres.%s.%s.%s.%s", w.hostname, w.pghostname, table, operation)
+	}
+	w.logger.Info(metric, logging.Duration("duration", delta))
 }
 
 // NewWrapper creates a new wrapper with options.

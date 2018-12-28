@@ -30,10 +30,13 @@ func Error(v error) Field {
 }
 
 type Config struct {
+	Environment string `json:"environment"`
 }
 
 func NewCliLogger(c *Config) (Logger, error) {
-	cfg := zap.NewDevelopmentConfig()
-	cfg.OutputPaths = []string{"stdout"}
+	cfg := zap.NewProductionConfig()
+	if c.Environment == "debug" {
+		cfg = zap.NewDevelopmentConfig()
+	}
 	return cfg.Build()
 }
