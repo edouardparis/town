@@ -6,8 +6,7 @@
 <div class="row">
 <div class="col-md-8">
   <div class="form-group">
-    <input type="text" class="form-control" id="title" placeholder="Title">
-    <small id="titleHelp" class="form-text text-muted">required</small>
+    <input type="text" class="form-control" id="title" placeholder="Title (required)">
   </div>
   <div class="form-group">
     <input type="text" class="form-control" id="lang" placeholder="Lang">
@@ -16,7 +15,7 @@
     <textarea class="form-control" rows="3" type="text" id="subtitle" placeholder="Subtitle"></textarea>
   </div>
     <div class="form-group">
-      <textarea class="form-control" rows="20" type="text" id="body"></textarea>
+      <textarea class="form-control" rows="20" type="text" id="body" placeholder="Your article (required)"></textarea>
     </div>
 </div>
 <div class="col-md-4">
@@ -30,16 +29,14 @@
       <input type="text" class="form-control" id="node_pub_key" placeholder="node pubkey">
     </div>
 
-    <button class="btn btn-primary btn-large btn-block" type="button" id="submit">
+    <div class="alert alert-success d-none" role="alert">
+      ✔️  You paid 0.006 €
+    </div>
+    <button id="submit" class="btn btn-primary btn-large btn-block" type="button">
       Publish Article
     </button>
-
-    <button id="button-modal-payment" type="button" class="btn btn-secondary btn-large btn-block" data-toggle="modal" data-target="#modal-payment">
+    <button id="payment" type="button" class="btn btn-secondary btn-large btn-block">
       Submit Article: 0.006 €.
-    </button>
-
-    <button id="button-modal-success" type="button" class="btn btn-secondary btn-large btn-block" data-toggle="modal" data-target="#modal-success">
-      Success
     </button>
 </div>
 </div>
@@ -51,13 +48,13 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <h5 class="modal-title">Your Lightning invoice:</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <canvas id="qr"></canvas>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -78,10 +75,14 @@
       <div class="modal-body">
         <p>Your article has been published</p>
       </div>
+      <div class="modal-footer">
+        <a id="success-callback" class="btn btn-outline-primary" href="">Go see it !</a>
+      </div>
     </div>
   </div>
 </div>
 {{ template "footer" . }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
 $(document).ready(function(){
   // click on button submit
@@ -94,13 +95,15 @@ $(document).ready(function(){
     payload.address = $("#address").val();
     payload.node_pub_key = $("#node_pub_key").val();
     $.ajax({
-      url: '{{ .Header.URLs.Website }}/api/articles', // url where to submit the request
+      url: '{{ .Header.URLs.Website }}' + '/api/articles', // url where to submit the request
       type : 'POST', // type of action POST || GET
       dataType : 'json', // data type
       contentType: 'application/json',
       data : JSON.stringify(payload), // post data || get data
       success : function(result) {
-        console.log(result);
+        $("#success-callback").attr("href",
+          '{{ .Header.URLs.Website }}' + "/articles/" + result.slug);
+        $('#modal-success').modal('show')
       },
       error: function(xhr, textStatus, error){
       console.log(xhr.statusText);
@@ -108,6 +111,26 @@ $(document).ready(function(){
       console.log(error);
       }
     })
+  });
+
+  $("#payment").on('click', function(){
+    $('#modal-payment').modal('show')
+      var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/checkout/' + 'hello' + '/');
+
+      chatSocket.onmessage = function(e) {
+          var data = JSON.parse(e.data);
+          var payment_request = data['payment_request'];
+          new QRious({
+            element: document.getElementById('qr'),
+            value: payment_request
+          });
+      };
+
+      chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+      };
   });
 });
 </script>
