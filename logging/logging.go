@@ -1,18 +1,31 @@
 package logging
 
 import (
+	"time"
+
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
+type Field = zapcore.Field
+
 type Logger interface {
-	Info(string, ...zap.Field)
+	Info(string, ...Field)
 }
 
-func String(k, v string) zap.Field {
+func String(k, v string) Field {
 	return zap.String(k, v)
 }
 
-func Error(v error) zap.Field {
+func Duration(k string, d time.Duration) Field {
+	return zap.Duration(k, d)
+}
+
+func Int(k string, i int) Field {
+	return zap.Int(k, i)
+}
+
+func Error(v error) Field {
 	return zap.Error(v)
 }
 
