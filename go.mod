@@ -1,6 +1,7 @@
 module git.iiens.net/edouardparis/town
 
 require (
+	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-chi/chi v3.3.3+incompatible
 	github.com/go-chi/render v1.0.1
@@ -23,6 +24,7 @@ require (
 	github.com/smartystreets/assertions v0.0.0-20180927180507-b2de0cb4f26d // indirect
 	github.com/smartystreets/goconvey v0.0.0-20181108003508-044398e4856c // indirect
 	github.com/stretchr/testify v1.2.2 // indirect
+	github.com/thoas/go-funk v0.0.0-20181020164546-fbae87fb5b5c
 	github.com/ulule/loukoum v0.0.0-20181005092552-17a3fdfd801e
 	github.com/ulule/makroud v0.0.0-20181108154031-ba2ad5a5bdf1
 	github.com/ulule/sqalx v0.0.0-20181108105852-607b375fd151 // indirect

@@ -23,9 +23,7 @@ func (a *Nodes) Create(ctx context.Context, node *models.Node) error {
 			lk.Pair("pub_key", node.PubKey),
 			lk.Pair("amount_collected", node.AmountCollected),
 			lk.Pair("amount_received", node.AmountReceived),
-			lk.Pair("created_at", node.CreatedAt),
-			lk.Pair("updated_at", node.UpdatedAt),
-		).Returning("id")
+		).Returning("id", "created_at", "updated_at")
 	err := a.Save(ctx, query, node)
 	if err != nil {
 		return errors.WithStack(err)

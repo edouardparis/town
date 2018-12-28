@@ -1,3 +1,5 @@
+# github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
+github.com/avelino/slugify
 # github.com/go-chi/chi v3.3.3+incompatible
 github.com/go-chi/chi
 # github.com/go-chi/render v1.0.1
@@ -17,6 +19,8 @@ github.com/oklog/ulid
 github.com/pkg/errors
 # github.com/serenize/snaker v0.0.0-20171204205717-a683aaf2d516
 github.com/serenize/snaker
+# github.com/thoas/go-funk v0.0.0-20181020164546-fbae87fb5b5c
+github.com/thoas/go-funk
 # github.com/ulule/loukoum v0.0.0-20181005092552-17a3fdfd801e
 github.com/ulule/loukoum
 github.com/ulule/loukoum/builder
@@ -50,3 +54,6 @@ golang.org/x/net/html
 golang.org/x/net/html/atom
 # golang.org/x/sync v0.0.0-20181108010431-42b317875d0f
 golang.org/x/sync/errgroup
+# golang.org/x/text v0.3.0
+golang.org/x/text/unicode/norm
+golang.org/x/text/transform

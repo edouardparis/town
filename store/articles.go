@@ -131,12 +131,10 @@ func (a *Articles) Create(ctx context.Context, article *models.Article) error {
 			lk.Pair("amount_received", article.AmountReceived),
 			lk.Pair("status", article.Status),
 			lk.Pair("slug", article.Slug),
-			lk.Pair("created_at", article.CreatedAt),
-			lk.Pair("updated_at", article.UpdatedAt),
 			lk.Pair("published_at", article.PublishedAt),
 			lk.Pair("address_id", article.AddressID),
 			lk.Pair("node_id", article.NodeID),
-		).Returning("id")
+		).Returning("id", "created_at", "updated_at")
 	err := a.Save(ctx, query, article)
 	if err != nil {
 		return errors.WithStack(err)
