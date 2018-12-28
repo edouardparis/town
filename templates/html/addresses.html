@@ -1,0 +1,27 @@
+{{ template "header" . }}
+<div class="jumbotron">
+<h3>Addresses</h3>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Value</th>
+        <th class="text-right">Amount collected</th>
+        <th class="text-right">Amount received</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range .Addresses }}
+      <tr>
+        <td><a href="{{ $.Header.URLs.Website }}/{{ .AbsoluteURL }}">
+            {{ .Value }}
+          </a>
+        </td>
+        <td class="text-right">{{ .AmountCollected }} sat</td>
+        <td class="text-right">{{ .AmountReceived }} sat</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+{{ template "footer" . }}

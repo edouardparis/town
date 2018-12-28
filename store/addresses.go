@@ -37,6 +37,24 @@ func (a Addresses) GetByValue(ctx context.Context, v string) (*models.Address, e
 	return address, nil
 }
 
+func (a Addresses) List(ctx context.Context) ([]models.Address, error) {
+	addresses := []models.Address{}
+
+	model := models.Address{}
+	q := lk.Select(columns(model)).
+		From(model.TableName())
+
+	err := a.Find(ctx, q, &addresses)
+	if err != nil {
+		if !makroud.IsErrNoRows(err) {
+			return nil, errors.Wrapf(err, "cannot retrieve addresses")
+		}
+		return nil, failures.ErrNotFound
+	}
+
+	return addresses, nil
+}
+
 func (a *Addresses) Create(ctx context.Context, address *models.Address) error {
 	query := lk.Insert(address.TableName()).
 		Set(

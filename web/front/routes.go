@@ -24,6 +24,7 @@ func NewRouter(a *app.App) http.Handler {
 	r.Get("/", handle(Home))
 	r.Get("/about", handle(About))
 	r.Route("/articles", articlesRoutes(a))
+	r.Route("/addresses", addressesRoutes(a))
 
 	workDir, _ := os.Getwd()
 	FileServer(r, "/static", http.Dir(filepath.Join(workDir, "static")))

@@ -20,6 +20,7 @@ func (c contextKey) String() string {
 
 var (
 	articleKey = contextKey("article")
+	addressKey = contextKey("address")
 )
 
 func ArticleFromCtx(ctx context.Context) (*models.Article, bool) {
@@ -43,6 +44,28 @@ func ArticleCtx(a *app.App, handle HandleError) Middleware {
 				return
 			}
 			ctx := context.WithValue(r.Context(), articleKey, article)
+			next.ServeHTTP(w, r.WithContext(ctx))
+		})
+	}
+}
+
+func AddressFromCtx(ctx context.Context) (*models.Address, bool) {
+	address, ok := ctx.Value(addressKey).(*models.Address)
+	return address, ok
+}
+
+func AddressCtx(a *app.App, handle HandleError) Middleware {
+	s := store.NewAddresses(a.Store)
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			slug := chi.URLParam(r, "value")
+			address, err := s.GetByValue(r.Context(), slug)
+			if err != nil {
+				handle(w, r, err)
+				return
+			}
+
+			ctx := context.WithValue(r.Context(), addressKey, address)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}

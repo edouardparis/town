@@ -9,7 +9,9 @@
       </div>
       <div class="col-md-4 text-right">
         {{ if .Article.Address }}
-        <a class="p-2 text-muted" href="">{{ .Article.Address.Value }}</a>
+        <a class="p-2 text-muted" href="{{ .Header.URLs.Website }}/{{.Article.Address.AbsoluteURL }}">
+          {{ .Article.Address.Value }}
+        </a>
         {{ end }}
       </div>
   </nav>
