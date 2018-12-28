@@ -118,8 +118,7 @@ $(document).ready(function(){
     $('#modal-payment').modal('show')
     if (chatSocket == undefined) {
       chatSocket = new WebSocket(
-        'ws://' + window.location.host +
-        '/ws/checkout/' + 'hello' + '/');
+        'ws://' + window.location.host + '/ws/checkout');
 
       chatSocket.onmessage = function(e) {
           var data = JSON.parse(e.data);
