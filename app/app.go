@@ -3,13 +3,15 @@ package app
 import (
 	"git.iiens.net/edouardparis/town/logging"
 	"git.iiens.net/edouardparis/town/models"
+	"git.iiens.net/edouardparis/town/opennode"
 	"git.iiens.net/edouardparis/town/store"
 )
 
 type App struct {
-	Logger logging.Logger
-	Store  store.Store
-	Info   *models.Info
+	Logger        logging.Logger
+	Store         store.Store
+	Info          *models.Info
+	PaymentConfig *opennode.Config
 }
 
 func New(c *Config) (*App, error) {
@@ -23,9 +25,12 @@ func New(c *Config) (*App, error) {
 		return nil, err
 	}
 
-	i := NewInfo(&c.InfoConfig)
-
-	return &App{Logger: logger, Store: s, Info: i}, nil
+	return &App{
+		Logger:        logger,
+		Store:         s,
+		Info:          NewInfo(&c.InfoConfig),
+		PaymentConfig: &c.PaymentConfig,
+	}, nil
 }
 
 func NewInfo(c *InfoConfig) *models.Info {

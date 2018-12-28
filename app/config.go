@@ -7,13 +7,15 @@ import (
 	"github.com/pkg/errors"
 
 	"git.iiens.net/edouardparis/town/logging"
+	"git.iiens.net/edouardparis/town/opennode"
 	"git.iiens.net/edouardparis/town/store"
 )
 
 type Config struct {
-	LoggerConfig logging.Config `json:"logger"`
-	StoreConfig  store.Config   `json:"store"`
-	InfoConfig   InfoConfig     `json:"info"`
+	LoggerConfig  logging.Config  `json:"logger"`
+	StoreConfig   store.Config    `json:"store"`
+	InfoConfig    InfoConfig      `json:"info"`
+	PaymentConfig opennode.Config `json:"opennode"`
 }
 
 type InfoConfig struct {
