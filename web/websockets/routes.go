@@ -1,6 +1,7 @@
 package websockets
 
 import (
+	"encoding/json"
 	"net/http"
 	"sync"
 
@@ -13,6 +14,7 @@ import (
 	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/logging"
+	"git.iiens.net/edouardparis/town/opennode"
 )
 
 var sessions = struct {
@@ -31,9 +33,35 @@ func NewRouter(a *app.App) http.Handler {
 	mrouter.HandleConnect(func(s *melody.Session) {
 		sessions.Lock()
 		defer sessions.Unlock()
+
 		sessions.objects[funk.RandomString(10)] = s
 		sessions.counter += 1
 		a.Logger.Info("New websocket connection", logging.Int("total_connected", sessions.counter))
+
+		charge, err := opennode.NewClient(a.PaymentConfig).CreateCharge(&opennode.ChargePayload{
+			Amount: int64(1000),
+		})
+		if err != nil {
+			s.Close()
+			a.Logger.Error("Error during charge creation", logging.Error(err))
+			return
+		}
+		resource := struct {
+			PayReq string `json:"payreq"`
+			Amount int64  `json:"amount"`
+		}{
+			PayReq: charge.LightningInvoice.PayReq,
+			Amount: charge.Amount,
+		}
+
+		rsc, err := json.Marshal(resource)
+		if err != nil {
+			s.Close()
+			a.Logger.Error("Error during charge creation", logging.Error(err))
+			return
+		}
+
+		s.Write(rsc)
 	})
 	return r
 }
