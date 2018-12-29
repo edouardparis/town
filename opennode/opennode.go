@@ -61,8 +61,8 @@ func (c *Client) CreateCharge(payload *ChargePayload) (*Charge, error) {
 }
 
 type Config struct {
-	APIKey string `json:"api_key"`
 	Debug  bool   `json:"debug"`
+	APIKey string `json:"api_key"`
 }
 
 func NewClient(c *Config) *Client {
