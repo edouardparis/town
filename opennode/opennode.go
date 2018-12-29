@@ -53,12 +53,14 @@ func (c *Client) CreateCharge(payload *ChargePayload) (*Charge, error) {
 		return nil, errors.Errorf("error during charge creation")
 	}
 
-	var charge Charge
-	err = json.Unmarshal(body, &charge)
+	resource := struct {
+		Data Charge `json:"data"`
+	}{}
+	err = json.Unmarshal(body, &resource)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
-	return &charge, nil
+	return &resource.Data, nil
 }
 
 type Config struct {

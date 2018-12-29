@@ -15,6 +15,7 @@ import (
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/logging"
 	"git.iiens.net/edouardparis/town/opennode"
+	"git.iiens.net/edouardparis/town/resources"
 )
 
 var sessions = struct {
@@ -47,14 +48,8 @@ func NewRouter(a *app.App) http.Handler {
 			a.Logger.Error("Error during charge creation", logging.Error(err))
 			return
 		}
-		resource := struct {
-			PayReq string `json:"payreq"`
-			Amount int64  `json:"amount"`
-		}{
-			PayReq: charge.LightningInvoice.PayReq,
-			Amount: charge.Amount,
-		}
 
+		resource := resources.NewCharge(charge)
 		rsc, err := json.Marshal(resource)
 		if err != nil {
 			s.Close()
