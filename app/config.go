@@ -12,10 +12,10 @@ import (
 )
 
 type Config struct {
+	PaymentConfig opennode.Config `json:"opennode"`
 	LoggerConfig  logging.Config  `json:"logger"`
 	StoreConfig   store.Config    `json:"store"`
 	InfoConfig    InfoConfig      `json:"info"`
-	PaymentConfig opennode.Config `json:"opennode"`
 }
 
 type InfoConfig struct {
