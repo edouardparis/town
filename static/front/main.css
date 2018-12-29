@@ -216,3 +216,8 @@ p {
 }
 
 .overflow-hidden { overflow: hidden; }
+
+.qr-code {
+  height: 300px;
+  width: auto;
+}

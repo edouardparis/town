@@ -54,7 +54,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <canvas id="qr"></canvas>
+        <canvas class="qr-code" id="qr"></canvas>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -123,6 +123,7 @@ $(document).ready(function(){
       chatSocket.onmessage = function(e) {
           var data = JSON.parse(e.data);
           var payment_request = data['payreq'];
+          console.log(payment_request);
           new QRious({
             element: document.getElementById('qr'),
             value: payment_request

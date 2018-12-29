@@ -32,11 +32,12 @@ func (c *Client) CreateCharge(payload *ChargePayload) (*Charge, error) {
 		return nil, errors.WithStack(err)
 	}
 
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(p))
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(p))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 	req.Header.Set("Authorization", c.APIKey)
+	req.Header.Set("Content-Type", "application/json")
 	resp, err := c.client.Do(req)
 	if err != nil {
 		return nil, errors.WithStack(err)

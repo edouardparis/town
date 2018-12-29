@@ -39,7 +39,8 @@ func NewRouter(a *app.App) http.Handler {
 		a.Logger.Info("New websocket connection", logging.Int("total_connected", sessions.counter))
 
 		charge, err := opennode.NewClient(a.PaymentConfig).CreateCharge(&opennode.ChargePayload{
-			Amount: int64(1000),
+			Amount:   int64(6),
+			Currency: "EUR",
 		})
 		if err != nil {
 			s.Close()

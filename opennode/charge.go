@@ -54,7 +54,7 @@ type ChargePayload struct {
 	// Charge price in satoshis
 	Amount int64 `json:"amount"`
 	// Charge currency
-	Currency string `json:"currency"`
+	Currency string `json:"currency,omitempty"`
 	// URL where user gets redirected after payment
 	SuccessURL string `json:"success_url"`
 	// Charge requested instant exchange
