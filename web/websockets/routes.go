@@ -8,22 +8,23 @@ import (
 	"github.com/go-chi/chi"
 	chirender "github.com/go-chi/render"
 	"github.com/pkg/errors"
-	"github.com/thoas/go-funk"
-	"gopkg.in/olahol/melody.v1"
+	funk "github.com/thoas/go-funk"
+	melody "gopkg.in/olahol/melody.v1"
 
 	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/opennode"
-	"git.iiens.net/edouardparis/town/resources"
+	"git.iiens.net/edouardparis/town/managers"
 )
 
-var sessions = struct {
-	counter int
-	objects map[string]*melody.Session
+var cache = struct {
+	counter  int
+	sessions map[string]*melody.Session
+	uuids    map[*melody.Session]string
 	sync.RWMutex
 }{
-	objects: make(map[string]*melody.Session),
+	sessions: make(map[string]*melody.Session),
+	uuids:    make(map[*melody.Session]string),
 }
 
 func NewRouter(a *app.App) http.Handler {
@@ -32,32 +33,44 @@ func NewRouter(a *app.App) http.Handler {
 	r.Get("/checkout", handleError(a.Logger, mrouter.HandleRequest))
 
 	mrouter.HandleConnect(func(s *melody.Session) {
-		sessions.Lock()
-		defer sessions.Unlock()
+		cache.Lock()
+		defer cache.Unlock()
 
-		sessions.objects[funk.RandomString(10)] = s
-		sessions.counter += 1
-		a.Logger.Info("New websocket connection", logging.Int("total_connected", sessions.counter))
-
-		charge, err := opennode.NewClient(a.PaymentConfig).CreateCharge(&opennode.ChargePayload{
-			Amount:   int64(6),
-			Currency: "EUR",
-		})
+		resource, err := managers.CreateCharge(a.PaymentConfig)
 		if err != nil {
 			s.Close()
 			a.Logger.Error("Error during charge creation", logging.Error(err))
 			return
 		}
 
-		resource := resources.NewCharge(charge)
 		rsc, err := json.Marshal(resource)
 		if err != nil {
 			s.Close()
-			a.Logger.Error("Error during charge creation", logging.Error(err))
+			a.Logger.Error("Error during charge resource marshalling", logging.Error(err))
 			return
 		}
 
-		s.Write(rsc)
+		err = s.Write(rsc)
+		if err != nil {
+			s.Close()
+			a.Logger.Error("Error during charge resources writing", logging.Error(err))
+			return
+		}
+
+		cache.sessions[funk.RandomString(10)] = s
+		cache.uuids[s] = resource.OrderID
+		cache.counter += 1
+		a.Logger.Info("New websocket connection", logging.Int("total_connected", cache.counter))
+	})
+
+	mrouter.HandleDisconnect(func(s *melody.Session) {
+		cache.Lock()
+		defer cache.Unlock()
+		id := cache.uuids[s]
+		delete(cache.uuids, s)
+		delete(cache.sessions, id)
+		cache.counter -= 1
+		a.Logger.Info("websocket disconnected", logging.Int("total_connected", cache.counter))
 	})
 	return r
 }

@@ -10,7 +10,7 @@ type Charge struct {
 	AmountFiat int64  `json:"amount_fiat"`
 	Currency   string `json:"currency"`
 	Status     string `json:"status"`
-	OrderUUID  string `json:"order_uuid"`
+	OrderID    string `json:"order_id"`
 }
 
 func NewCharge(charge *opennode.Charge) *Charge {
@@ -20,5 +20,6 @@ func NewCharge(charge *opennode.Charge) *Charge {
 		AmountFiat: charge.FiatValue,
 		Currency:   charge.Currency,
 		Status:     charge.Status,
+		OrderID:    charge.OrderID,
 	}
 }
