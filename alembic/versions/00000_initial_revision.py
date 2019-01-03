@@ -77,6 +77,28 @@ def upgrade():
     op.create_index(op.f('town_article_slug'), 'town_article', ['slug'])
     op.create_unique_constraint('uq_article_slug', 'town_article', ['slug'])
 
+    op.create_table(
+        "town_order",
+        sa.Column('id', sa.Integer, primary_key=True),
+        sa.Column('public_id', sa.String(255), nullable=False),
+        sa.Column('description', sa.Text, nullable=False),
+        sa.Column('amount', sa.Integer, nullable=False),
+        sa.Column('status', sa.Integer, nullable=False),
+        sa.Column('fee', sa.Integer, nullable=False),
+        sa.Column('fiat_value', sa.Integer, nullable=False),
+        sa.Column('currency', sa.Integer, nullable=False),
+        sa.Column('notes', sa.Text, nullable=False),
+        sa.Column('payreq', sa.Text, nullable=False),
+
+        sa.Column('charge_created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column('charge_settle_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+
+        sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
+        sa.Column('claimed_at', sa.DateTime(timezone=True), nullable=True),
+    )
+    op.create_index(op.f('town_order_public_id'), 'town_order', ['public_id'])
+
     if 'with-bootstrap' in context.get_x_argument(as_dictionary=False):
         from bootstrap.utils import insert_data
         from bootstrap.slugs import slugs
