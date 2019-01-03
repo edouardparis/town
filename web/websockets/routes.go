@@ -36,7 +36,7 @@ func NewRouter(a *app.App) http.Handler {
 		cache.Lock()
 		defer cache.Unlock()
 
-		resource, err := managers.CreateCharge(a.PaymentConfig)
+		resource, err := managers.CreateCharge(a.Config)
 		if err != nil {
 			s.Close()
 			a.Logger.Error("Error during charge creation", logging.Error(err))

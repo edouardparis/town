@@ -56,6 +56,8 @@ type ChargePayload struct {
 	// Charge currency
 	Currency string `json:"currency,omitempty"`
 	// URL where user gets redirected after payment
+	CallbackURL string `json:"callback_url"`
+	// URL where user gets redirected after payment
 	SuccessURL string `json:"success_url"`
 	// Charge requested instant exchange
 	AutoSettle bool `json:"auto_settle"`
