@@ -29,6 +29,12 @@ type Charge struct {
 	ChainInvoice ChainInvoice `json:"chain_invoice"`
 	// lightning_invoice
 	LightningInvoice LightningInvoice `json:"lightning_invoice"`
+	// Hashed Order
+	// OpenNode signs all charge related events it sends
+	// to your endpoints by including a hashed_order field
+	// on the event payload. This allows you to validate that
+	// the events were sent by OpenNode and not by a third party.
+	HashedOrder string `json:"hashed_order"`
 }
 
 type ChainInvoice struct {

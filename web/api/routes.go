@@ -19,11 +19,17 @@ import (
 func NewRouter(a *app.App) http.Handler {
 	r := chi.NewRouter()
 	r.Route("/articles", articlesRoutes(a))
+	r.Route("/webhooks", webhooksRoutes(a))
 	return r
 }
 
 func render(w http.ResponseWriter, r *http.Request, resource interface{}, httpStatus int) error {
 	chirender.Status(r, httpStatus)
+
+	if resource == nil {
+		return nil
+	}
+
 	buf := &bytes.Buffer{}
 	enc := json.NewEncoder(buf)
 	enc.SetEscapeHTML(true)
