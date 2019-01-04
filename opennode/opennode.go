@@ -2,6 +2,8 @@ package opennode
 
 import (
 	"bytes"
+	"crypto/hmac"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -61,6 +63,13 @@ func (c *Client) CreateCharge(payload *ChargePayload) (*Charge, error) {
 		return nil, errors.WithStack(err)
 	}
 	return &resource.Data, nil
+}
+
+func (clt *Client) VerifyCharge(c *Charge) bool {
+	mac := hmac.New(sha256.New, []byte(clt.APIKey))
+	mac.Write([]byte(c.ID))
+	expected := mac.Sum(nil)
+	return hmac.Equal(expected, []byte(c.HashedOrder))
 }
 
 type Config struct {

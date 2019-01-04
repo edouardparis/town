@@ -4,11 +4,10 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/mholt/binding"
 
 	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/resources"
-	"git.iiens.net/edouardparis/town/web/middlewares"
+	"git.iiens.net/edouardparis/town/payloads"
 )
 
 func webhooksRoutes(a *app.App) func(r chi.Router) {
@@ -19,12 +18,11 @@ func webhooksRoutes(a *app.App) func(r chi.Router) {
 
 func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error {
 	return func(w http.ResponseWriter, r *http.Request) error {
-		ctx := r.Context()
-		article, ok := middlewares.ArticleFromCtx(ctx)
-		if !ok {
-			return failures.ErrNotFound
+		payload := &payloads.Charge{}
+		errs := binding.Bind(r, payload)
+		if errs != nil {
+			return errs
 		}
-		resource := resources.NewArticle(article)
-		return render(w, r, resource, http.StatusOK)
+		return render(w, r, nil, http.StatusOK)
 	}
 }
