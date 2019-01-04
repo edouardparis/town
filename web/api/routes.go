@@ -13,7 +13,6 @@ import (
 	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/web/middlewares"
 )
 
 func NewRouter(a *app.App) http.Handler {
@@ -43,14 +42,6 @@ func render(w http.ResponseWriter, r *http.Request, resource interface{}, httpSt
 	return err
 }
 
-type view func(*app.App, middlewares.HandleError) http.HandlerFunc
-
-func newHandle(a *app.App) func(view) http.HandlerFunc {
-	return func(fn view) http.HandlerFunc {
-		return fn(a, handleError(a.Logger))
-	}
-}
-
 func handleError(logger logging.Logger) func(http.ResponseWriter, *http.Request, error) {
 	return func(w http.ResponseWriter, r *http.Request, err error) {
 		if err == nil {
@@ -67,6 +58,31 @@ func handleError(logger logging.Logger) func(http.ResponseWriter, *http.Request,
 			err = cerr
 		default:
 			logger.Error(cerr.Error())
+			status = http.StatusInternalServerError
+		}
+
+		chirender.Status(r, status)
+		chirender.JSON(w, r, err)
+	}
+}
+
+func handle(a *app.App, fn func(*app.App) func(http.ResponseWriter, *http.Request) error) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := fn(a)(w, r)
+		if err == nil {
+			return
+		}
+
+		var status int
+		switch cerr := errors.Cause(err).(type) {
+		case failures.Error:
+			status = cerr.Code
+			err = cerr
+		case binding.Errors:
+			status = http.StatusBadRequest
+			err = cerr
+		default:
+			a.Logger.Error(cerr.Error())
 			status = http.StatusInternalServerError
 		}
 

@@ -12,24 +12,19 @@ import (
 )
 
 func webhooksRoutes(a *app.App) func(r chi.Router) {
-	handle := newHandle(a)
 	return func(r chi.Router) {
-		r.Post("/checkout", handle(CheckoutWebhook))
+		r.Post("/checkout", handle(a, CheckoutWebhook))
 	}
 }
 
-func CheckoutWebhook(a *app.App, handle middlewares.HandleError) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error {
+	return func(w http.ResponseWriter, r *http.Request) error {
 		ctx := r.Context()
 		article, ok := middlewares.ArticleFromCtx(ctx)
 		if !ok {
-			handle(w, r, failures.ErrNotFound)
-			return
+			return failures.ErrNotFound
 		}
 		resource := resources.NewArticle(article)
-		err := render(w, r, resource, http.StatusOK)
-		if err != nil {
-			handle(w, r, err)
-		}
+		return render(w, r, resource, http.StatusOK)
 	}
 }

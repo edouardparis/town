@@ -15,52 +15,42 @@ import (
 )
 
 func articlesRoutes(a *app.App) func(r chi.Router) {
-	handle := newHandle(a)
 	articleCtx := middlewares.ArticleCtx(a, handleError(a.Logger))
 	return func(r chi.Router) {
 		r.Route("/{slug:[a-z-]+}", func(r chi.Router) {
-			r.With(articleCtx).Get("/", handle(ArticleDetail))
+			r.With(articleCtx).Get("/", handle(a, ArticleDetail))
 		})
 
-		r.Post("/", handle(ArticleCreate))
+		r.Post("/", handle(a, ArticleCreate))
 	}
 }
 
-func ArticleDetail(a *app.App, handle middlewares.HandleError) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func ArticleDetail(a *app.App) func(http.ResponseWriter, *http.Request) error {
+	return func(w http.ResponseWriter, r *http.Request) error {
 		ctx := r.Context()
 		article, ok := middlewares.ArticleFromCtx(ctx)
 		if !ok {
-			handle(w, r, failures.ErrNotFound)
-			return
+			return failures.ErrNotFound
 		}
 		resource := resources.NewArticle(article)
-		err := render(w, r, resource, http.StatusOK)
-		if err != nil {
-			handle(w, r, err)
-		}
+		return render(w, r, resource, http.StatusOK)
 	}
 }
 
-func ArticleCreate(a *app.App, handle middlewares.HandleError) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func ArticleCreate(a *app.App) func(http.ResponseWriter, *http.Request) error {
+	return func(w http.ResponseWriter, r *http.Request) error {
 		payload := &payloads.Article{}
 		errs := binding.Bind(r, payload)
 		if errs != nil {
-			handle(w, r, errs)
-			return
+			return errs
 		}
 
 		article, err := managers.ArticleCreate(r.Context(), a.Store, payload)
 		if err != nil {
-			handle(w, r, err)
-			return
+			return err
 		}
 
 		resource := resources.NewArticle(article)
-		err = render(w, r, resource, http.StatusCreated)
-		if err != nil {
-			handle(w, r, err)
-		}
+		return render(w, r, resource, http.StatusCreated)
 	}
 }
