@@ -148,11 +148,12 @@ $(document).ready(function(){
         if (payment_status === 'paid') {
           $('#payment').addClass('d-none')
           $('#success').removeClass('d-none')
-          $('#modal-payment').modal('show')
+          $('#modal-payment').modal('hide')
         }
       };
 
       chatSocket.onclose = function(e) {
+        console.error(e.data);
         console.error('Chat socket closed unexpectedly');
       };
     }

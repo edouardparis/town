@@ -9,7 +9,6 @@ import (
 	"github.com/go-chi/chi"
 	chirender "github.com/go-chi/render"
 	"github.com/pkg/errors"
-	funk "github.com/thoas/go-funk"
 	melody "gopkg.in/olahol/melody.v1"
 
 	"git.iiens.net/edouardparis/town/app"
@@ -59,7 +58,7 @@ func NewRouter(a *app.App) http.Handler {
 			return
 		}
 
-		cache.sessions[funk.RandomString(10)] = s
+		cache.sessions[resource.OrderID] = s
 		cache.uuids[s] = resource.OrderID
 		cache.counter += 1
 		a.Logger.Info("New websocket connection", logging.Int("total_connected", cache.counter))
@@ -91,7 +90,17 @@ func SendChargeAndCloseSession(resource *resources.Charge) error {
 		return err
 	}
 
-	return session.CloseWithMsg(rsc)
+	err = session.Write(rsc)
+	if err != nil {
+		return err
+	}
+
+	session.Close()
+	delete(cache.uuids, session)
+	delete(cache.sessions, resource.OrderID)
+	cache.counter -= 1
+
+	return nil
 }
 
 func handleError(logger logging.Logger, fn func(http.ResponseWriter, *http.Request) error) http.HandlerFunc {
