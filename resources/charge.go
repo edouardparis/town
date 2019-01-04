@@ -5,12 +5,12 @@ import (
 )
 
 type Charge struct {
-	PayReq     string `json:"payreq"`
-	Amount     int64  `json:"amount"`
-	AmountFiat int64  `json:"amount_fiat"`
-	Currency   string `json:"currency"`
-	Status     string `json:"status"`
-	OrderID    string `json:"order_id"`
+	PayReq     string  `json:"payreq"`
+	Amount     int64   `json:"amount"`
+	AmountFiat float64 `json:"amount_fiat"`
+	Currency   string  `json:"currency"`
+	Status     string  `json:"status"`
+	OrderID    string  `json:"order_id"`
 }
 
 func NewCharge(charge *opennode.Charge) *Charge {

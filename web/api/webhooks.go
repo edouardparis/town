@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 
+	"github.com/LizardsTown/opennode"
 	"github.com/go-chi/chi"
 	"github.com/mholt/binding"
 
@@ -23,6 +24,12 @@ func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error 
 		if errs != nil {
 			return errs
 		}
+		charge := opennode.Charge{ID: payload.ID}
+		err := opennode.NewClient(&a.Config.PaymentConfig).UpdateCharge(&charge)
+		if err != nil {
+			return err
+		}
+
 		return render(w, r, nil, http.StatusOK)
 	}
 }
