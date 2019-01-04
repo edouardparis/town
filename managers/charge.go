@@ -3,11 +3,11 @@ package managers
 import (
 	"fmt"
 
+	"github.com/LizardsTown/opennode"
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 
 	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/opennode"
 	"git.iiens.net/edouardparis/town/resources"
 )
 

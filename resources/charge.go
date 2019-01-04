@@ -1,7 +1,7 @@
 package resources
 
 import (
-	"git.iiens.net/edouardparis/town/opennode"
+	"github.com/LizardsTown/opennode"
 )
 
 type Charge struct {

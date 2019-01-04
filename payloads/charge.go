@@ -3,7 +3,7 @@ package payloads
 import (
 	"net/http"
 
-	"git.iiens.net/edouardparis/town/opennode"
+	"github.com/LizardsTown/opennode"
 	"github.com/mholt/binding"
 )
 

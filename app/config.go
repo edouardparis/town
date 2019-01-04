@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"os"
 
+	"github.com/LizardsTown/opennode"
 	"github.com/pkg/errors"
 
 	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/opennode"
 	"git.iiens.net/edouardparis/town/store"
 )
 

@@ -1,3 +1,5 @@
+github.com/LizardsTown/opennode v0.0.0-20190104094127-8b84dbb892ac h1:l56So0WRlxHQya4tjrcVvri5mJvNB77zywD3jAgv1dI=
+github.com/LizardsTown/opennode v0.0.0-20190104094127-8b84dbb892ac/go.mod h1:JAsgLUF+byzra+/wimo/rSfeb7H1zmBESA1Rj2wLfmA=
 github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774 h1:HrMVYtly2IVqg9EBooHsakQ256ueojP7QuG32K71X/U=
 github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774/go.mod h1:5wi5YYOpfuAKwL5XLFYopbgIl/v7NZxaJpa/4X6yFKE=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

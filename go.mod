@@ -1,6 +1,7 @@
 module git.iiens.net/edouardparis/town
 
 require (
+	github.com/LizardsTown/opennode v0.0.0-20190104094127-8b84dbb892ac
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-chi/chi v3.3.3+incompatible
