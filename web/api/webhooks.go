@@ -9,6 +9,8 @@ import (
 
 	"git.iiens.net/edouardparis/town/app"
 	"git.iiens.net/edouardparis/town/payloads"
+	"git.iiens.net/edouardparis/town/resources"
+	"git.iiens.net/edouardparis/town/web/websockets"
 )
 
 func webhooksRoutes(a *app.App) func(r chi.Router) {
@@ -26,6 +28,11 @@ func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error 
 		}
 		charge := opennode.Charge{ID: payload.ID}
 		err := opennode.NewClient(&a.Config.PaymentConfig).UpdateCharge(&charge)
+		if err != nil {
+			return err
+		}
+
+		err = websockets.SendChargeAndCloseSession(resources.NewCharge(&charge))
 		if err != nil {
 			return err
 		}
