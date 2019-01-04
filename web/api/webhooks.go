@@ -18,8 +18,8 @@ func webhooksRoutes(a *app.App) func(r chi.Router) {
 
 func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error {
 	return func(w http.ResponseWriter, r *http.Request) error {
-		payload := &payloads.Charge{}
-		errs := binding.Bind(r, payload)
+		payload := payloads.Charge{}
+		errs := binding.Bind(r, &payload)
 		if errs != nil {
 			return errs
 		}

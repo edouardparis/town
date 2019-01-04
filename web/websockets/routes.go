@@ -2,6 +2,7 @@ package websockets
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sync"
 
@@ -15,6 +16,7 @@ import (
 	"git.iiens.net/edouardparis/town/failures"
 	"git.iiens.net/edouardparis/town/logging"
 	"git.iiens.net/edouardparis/town/managers"
+	"git.iiens.net/edouardparis/town/resources"
 )
 
 var cache = struct {
@@ -73,6 +75,23 @@ func NewRouter(a *app.App) http.Handler {
 		a.Logger.Info("websocket disconnected", logging.Int("total_connected", cache.counter))
 	})
 	return r
+}
+
+func SendChargeAndCloseSession(resource *resources.Charge) error {
+	cache.Lock()
+	defer cache.Unlock()
+
+	session, ok := cache.sessions[resource.OrderID]
+	if !ok {
+		return fmt.Errorf("cannot find websocket connection with id %s", resource.OrderID)
+	}
+
+	rsc, err := json.Marshal(resource)
+	if err != nil {
+		return err
+	}
+
+	return session.CloseWithMsg(rsc)
 }
 
 func handleError(logger logging.Logger, fn func(http.ResponseWriter, *http.Request) error) http.HandlerFunc {

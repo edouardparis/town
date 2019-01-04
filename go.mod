@@ -7,7 +7,6 @@ require (
 	github.com/go-chi/chi v3.3.3+incompatible
 	github.com/go-chi/render v1.0.1
 	github.com/gofrs/uuid v3.1.0+incompatible
-	github.com/google/pprof v0.0.0-20181206194817-3ea8567a2e57 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gorilla/websocket v1.4.0 // indirect
 	github.com/heetch/sqalx v0.3.0 // indirect
@@ -35,7 +34,6 @@ require (
 	go.uber.org/atomic v1.3.2 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1
-	golang.org/x/arch v0.0.0-20181203225421-5a4828bb7045 // indirect
 	golang.org/x/sync v0.0.0-20181108010431-42b317875d0f
 	google.golang.org/appengine v1.4.0 // indirect
 	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0 // indirect
