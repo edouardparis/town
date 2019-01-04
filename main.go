@@ -4,8 +4,8 @@ import (
 	"context"
 	"flag"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/web/server"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/web/server"
 )
 
 func main() {

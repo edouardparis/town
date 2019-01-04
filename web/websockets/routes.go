@@ -11,11 +11,11 @@ import (
 	"github.com/pkg/errors"
 	melody "gopkg.in/olahol/melody.v1"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/managers"
-	"git.iiens.net/edouardparis/town/resources"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/logging"
+	"github.com/EdouardParis/town/managers"
+	"github.com/EdouardParis/town/resources"
 )
 
 var cache = struct {

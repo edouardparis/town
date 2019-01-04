@@ -1,7 +1,7 @@
 package resources
 
 import (
-	"git.iiens.net/edouardparis/town/models"
+	"github.com/EdouardParis/town/models"
 )
 
 type Header struct {

@@ -7,9 +7,9 @@ import (
 	lk "github.com/ulule/loukoum"
 	"github.com/ulule/makroud"
 
-	"git.iiens.net/edouardparis/town/constants"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/models"
+	"github.com/EdouardParis/town/constants"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/models"
 )
 
 type Articles struct {

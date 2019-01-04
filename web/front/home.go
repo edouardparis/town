@@ -3,11 +3,11 @@ package front
 import (
 	"net/http"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/resources"
-	"git.iiens.net/edouardparis/town/store"
-	"git.iiens.net/edouardparis/town/web/middlewares"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/resources"
+	"github.com/EdouardParis/town/store"
+	"github.com/EdouardParis/town/web/middlewares"
 )
 
 func Home(a *app.App, handle middlewares.HandleError) http.HandlerFunc {

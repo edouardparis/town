@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/ulule/loukoum/parser"
 
-	"git.iiens.net/edouardparis/town/logging"
+	"github.com/EdouardParis/town/logging"
 )
 
 // Option is a functional option.

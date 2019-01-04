@@ -7,8 +7,8 @@ import (
 	lkb "github.com/ulule/loukoum/builder"
 	"github.com/ulule/makroud"
 
-	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/models"
+	"github.com/EdouardParis/town/logging"
+	"github.com/EdouardParis/town/models"
 )
 
 // ----------------------------------------------------------------------------

@@ -3,7 +3,7 @@ package resources
 import (
 	"time"
 
-	"git.iiens.net/edouardparis/town/models"
+	"github.com/EdouardParis/town/models"
 )
 
 type Node struct {

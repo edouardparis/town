@@ -6,10 +6,10 @@ import (
 
 	"github.com/go-chi/chi"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/models"
-	"git.iiens.net/edouardparis/town/store"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/models"
+	"github.com/EdouardParis/town/store"
 )
 
 type contextKey string

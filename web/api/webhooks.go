@@ -7,10 +7,10 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/mholt/binding"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/payloads"
-	"git.iiens.net/edouardparis/town/resources"
-	"git.iiens.net/edouardparis/town/web/websockets"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/payloads"
+	"github.com/EdouardParis/town/resources"
+	"github.com/EdouardParis/town/web/websockets"
 )
 
 func webhooksRoutes(a *app.App) func(r chi.Router) {

@@ -1,4 +1,4 @@
-module git.iiens.net/edouardparis/town
+module github.com/EdouardParis/town
 
 require (
 	github.com/LizardsTown/opennode v0.0.0-20190104133509-17bf01025368

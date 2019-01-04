@@ -7,8 +7,8 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/resources"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/resources"
 )
 
 var _ = uuid.Must(uuid.NewV4())

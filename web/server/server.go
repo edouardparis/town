@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 
-	"git.iiens.net/edouardparis/town/app"
+	"github.com/EdouardParis/town/app"
 )
 
 // Run the server

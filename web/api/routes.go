@@ -10,9 +10,9 @@ import (
 	"github.com/mholt/binding"
 	"github.com/pkg/errors"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/logging"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/logging"
 )
 
 func NewRouter(a *app.App) http.Handler {

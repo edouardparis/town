@@ -11,11 +11,11 @@ import (
 	"github.com/mholt/binding"
 	"github.com/pkg/errors"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/templates"
-	"git.iiens.net/edouardparis/town/web/middlewares"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/logging"
+	"github.com/EdouardParis/town/templates"
+	"github.com/EdouardParis/town/web/middlewares"
 )
 
 func NewRouter(a *app.App) http.Handler {

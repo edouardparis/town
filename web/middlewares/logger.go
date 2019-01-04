@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-chi/chi/middleware"
 
-	"git.iiens.net/edouardparis/town/logging"
+	"github.com/EdouardParis/town/logging"
 )
 
 func Logger(logger logging.Logger) Middleware {

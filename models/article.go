@@ -6,7 +6,7 @@ import (
 
 	"github.com/lib/pq"
 
-	"git.iiens.net/edouardparis/town/constants"
+	"github.com/EdouardParis/town/constants"
 )
 
 type Article struct {

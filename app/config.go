@@ -7,8 +7,8 @@ import (
 	"github.com/LizardsTown/opennode"
 	"github.com/pkg/errors"
 
-	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/store"
+	"github.com/EdouardParis/town/logging"
+	"github.com/EdouardParis/town/store"
 )
 
 type Config struct {

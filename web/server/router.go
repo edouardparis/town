@@ -7,11 +7,11 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/web/api"
-	"git.iiens.net/edouardparis/town/web/front"
-	"git.iiens.net/edouardparis/town/web/middlewares"
-	"git.iiens.net/edouardparis/town/web/websockets"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/web/api"
+	"github.com/EdouardParis/town/web/front"
+	"github.com/EdouardParis/town/web/middlewares"
+	"github.com/EdouardParis/town/web/websockets"
 )
 
 // Routes register all the API urls and handlers to the router.

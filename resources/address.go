@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"git.iiens.net/edouardparis/town/models"
+	"github.com/EdouardParis/town/models"
 )
 
 type Address struct {

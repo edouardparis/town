@@ -1,9 +1,9 @@
 package app
 
 import (
-	"git.iiens.net/edouardparis/town/logging"
-	"git.iiens.net/edouardparis/town/models"
-	"git.iiens.net/edouardparis/town/store"
+	"github.com/EdouardParis/town/logging"
+	"github.com/EdouardParis/town/models"
+	"github.com/EdouardParis/town/store"
 )
 
 type App struct {

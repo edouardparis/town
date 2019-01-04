@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"git.iiens.net/edouardparis/town/constants"
-	"git.iiens.net/edouardparis/town/models"
+	"github.com/EdouardParis/town/constants"
+	"github.com/EdouardParis/town/models"
 )
 
 type Article struct {

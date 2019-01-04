@@ -6,7 +6,7 @@ import (
 	"github.com/pkg/errors"
 	lk "github.com/ulule/loukoum"
 
-	"git.iiens.net/edouardparis/town/models"
+	"github.com/EdouardParis/town/models"
 )
 
 type Nodes struct {

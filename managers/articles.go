@@ -9,11 +9,11 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 	funk "github.com/thoas/go-funk"
 
-	"git.iiens.net/edouardparis/town/constants"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/models"
-	"git.iiens.net/edouardparis/town/payloads"
-	"git.iiens.net/edouardparis/town/store"
+	"github.com/EdouardParis/town/constants"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/models"
+	"github.com/EdouardParis/town/payloads"
+	"github.com/EdouardParis/town/store"
 )
 
 func ArticleCreate(ctx context.Context, s store.Store, payload *payloads.Article) (*models.Article, error) {

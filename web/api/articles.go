@@ -6,12 +6,12 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/mholt/binding"
 
-	"git.iiens.net/edouardparis/town/app"
-	"git.iiens.net/edouardparis/town/failures"
-	"git.iiens.net/edouardparis/town/managers"
-	"git.iiens.net/edouardparis/town/payloads"
-	"git.iiens.net/edouardparis/town/resources"
-	"git.iiens.net/edouardparis/town/web/middlewares"
+	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/failures"
+	"github.com/EdouardParis/town/managers"
+	"github.com/EdouardParis/town/payloads"
+	"github.com/EdouardParis/town/resources"
+	"github.com/EdouardParis/town/web/middlewares"
 )
 
 func articlesRoutes(a *app.App) func(r chi.Router) {
