@@ -19,7 +19,7 @@ type Order struct {
 	// Charge fee in satoshis
 	Fee int64 `makroud:"column:fee"`
 	// Charge value at issue time
-	FiatValue int64 `makroud:"column:fiat_value"`
+	FiatValue float64 `makroud:"column:fiat_value"`
 	// Charge currency
 	Currency string `makroud:"column:currency"`
 	// Charge notes

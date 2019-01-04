@@ -85,7 +85,7 @@ def upgrade():
         sa.Column('amount', sa.Integer, nullable=False),
         sa.Column('status', sa.Integer, nullable=False),
         sa.Column('fee', sa.Integer, nullable=False),
-        sa.Column('fiat_value', sa.Integer, nullable=False),
+        sa.Column('fiat_value', sa.Float, nullable=False),
         sa.Column('currency', sa.Integer, nullable=False),
         sa.Column('notes', sa.Text, nullable=False),
         sa.Column('payreq', sa.Text, nullable=False),
