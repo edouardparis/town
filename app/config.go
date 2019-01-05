@@ -48,6 +48,7 @@ func LoadConfigFile(path string) (*Config, error) {
 func NewConfigFromENV() (*Config, error) {
 	var err error
 	c := &Config{}
+	c.InfoConfig.URLs.Website = os.Getenv("INFO_URLS_WEBSITE")
 	c.PaymentConfig.APIKey = os.Getenv("OPENNODE_APIKEY")
 	c.PaymentConfig.Debug = (os.Getenv("OPENNODE_DEBUG") == "true")
 
