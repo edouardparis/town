@@ -3,6 +3,8 @@ package models
 import (
 	"time"
 
+	"github.com/EdouardParis/town/constants"
+	"github.com/LizardsTown/opennode"
 	"github.com/lib/pq"
 )
 
@@ -21,7 +23,7 @@ type Order struct {
 	// Charge value at issue time
 	FiatValue float64 `makroud:"column:fiat_value"`
 	// Charge currency
-	Currency string `makroud:"column:currency"`
+	Currency int64 `makroud:"column:currency"`
 	// Charge notes
 	Notes string `makroud:"column:notes"`
 
@@ -39,4 +41,20 @@ type Order struct {
 // TableName implements Model interface.
 func (Order) TableName() string {
 	return "town_order"
+}
+
+func NewOrder(c *opennode.Charge) *Order {
+	return &Order{
+		PublicID:        c.OrderID,
+		Description:     c.Description,
+		Amount:          c.Amount,
+		Status:          constants.OrderStatusStrToInt[c.Status],
+		Fee:             c.Fee,
+		FiatValue:       c.FiatValue,
+		Currency:        constants.CurrenciesStrToInt[c.Currency],
+		Notes:           c.Notes,
+		PayReq:          c.LightningInvoice.PayReq,
+		ChargeCreatedAt: time.Unix(c.LightningInvoice.CreatedAt, 0),
+		ChargeSettledAt: time.Unix(c.LightningInvoice.SettledAt, 0),
+	}
 }
