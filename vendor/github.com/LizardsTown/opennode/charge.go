@@ -12,7 +12,7 @@ type Charge struct {
 	// Charge fee in satoshis
 	Fee int64 `json:"fee"`
 	// Charge value at issue time
-	FiatValue int64 `json:"fiat_value"`
+	FiatValue float64 `json:"fiat_value"`
 	// Charge currency
 	Currency string `json:"currency"`
 	// timestamp

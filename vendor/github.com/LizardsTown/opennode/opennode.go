@@ -65,6 +65,49 @@ func (c *Client) CreateCharge(payload *ChargePayload) (*Charge, error) {
 	return &resource.Data, nil
 }
 
+func (c *Client) UpdateCharge(ch *Charge) error {
+	if ch == nil {
+		return nil
+	}
+
+	url := fmt.Sprintf("%s/charge/%s", c.APIEndpoint, ch.ID)
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	req.Header.Set("Authorization", c.APIKey)
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return errors.Errorf(
+			"error during charge update: status: %d, body: %s",
+			resp.StatusCode, string(body),
+		)
+	}
+
+	resource := struct {
+		Data Charge `json:"data"`
+	}{}
+	err = json.Unmarshal(body, &resource)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	*ch = resource.Data
+
+	return nil
+}
+
 func (clt *Client) VerifyCharge(c *Charge) bool {
 	mac := hmac.New(sha256.New, []byte(clt.APIKey))
 	mac.Write([]byte(c.ID))
