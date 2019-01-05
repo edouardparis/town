@@ -30,7 +30,6 @@ func NewConnector(cfg *Config, logger logging.Logger) (makroud.Driver, error) {
 		makroud.User(cfg.User),
 		makroud.Password(cfg.Password),
 		makroud.Database(cfg.Name),
-		makroud.SSLMode(cfg.SSLMode),
 		makroud.EnableSavepoint(),
 		makroud.WithLogger(wrapper),
 	)
