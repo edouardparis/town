@@ -3,6 +3,7 @@ package app
 import (
 	"encoding/json"
 	"os"
+	"strconv"
 
 	"github.com/LizardsTown/opennode"
 	"github.com/pkg/errors"
@@ -45,6 +46,23 @@ func LoadConfigFile(path string) (*Config, error) {
 }
 
 func NewConfigFromENV() (*Config, error) {
+	var err error
+	c := &Config{}
+	c.InfoConfig.URLs.Website = os.Getenv("INFO_URLS_WEBSITE")
+	c.PaymentConfig.APIKey = os.Getenv("OPENNODE_APIKEY")
+	c.PaymentConfig.Debug = (os.Getenv("OPENNODE_DEBUG") == "true")
 
-	return &Config{}, nil
+	c.LoggerConfig.Environment = os.Getenv("LOGGER_ENV")
+
+	c.StoreConfig.Name = os.Getenv("POSTGRESQL_ADDON_DB")
+	c.StoreConfig.Host = os.Getenv("POSTGRESQL_ADDON_HOST")
+	c.StoreConfig.Password = os.Getenv("POSTGRESQL_ADDON_PASSWORD")
+	c.StoreConfig.User = os.Getenv("POSTGRESQL_ADDON_USER")
+	c.StoreConfig.SSLMode = os.Getenv("POSTGRESQL_ADDON_SSLMODE")
+	c.StoreConfig.Port, err = strconv.Atoi(os.Getenv("POSTGRESQL_ADDON_PORT"))
+	if err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }
