@@ -35,10 +35,13 @@ func Run(ctx context.Context, app *app.App) error {
 	// HTTP server
 	g.Go(func() error {
 		cerr := make(chan error)
-		addr := os.Getenv("PORT")
-		if addr == "" {
-			addr = ":8080"
+
+		addr := ":8080"
+		port := os.Getenv("PORT")
+		if port != "" {
+			addr = fmt.Sprintf("0.0.0.0:%s", port)
 		}
+
 		srv := http.Server{
 			Addr:    addr,
 			Handler: Routes(ctx, app),
