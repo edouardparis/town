@@ -70,7 +70,7 @@ func NewDBConfig() (store.Config, error) {
 	if s != "" {
 		u, err := url.Parse(s)
 		if err != nil {
-			return c, err
+			return c, errors.WithStack(err)
 		}
 		c.Name = u.Path
 		c.User = u.User.Username()
@@ -80,9 +80,11 @@ func NewDBConfig() (store.Config, error) {
 
 		c.Port, err = strconv.Atoi(port)
 		if err != nil {
-			return c, err
+			return c, errors.WithStack(err)
 		}
 		c.SSLMode = "require"
+
+		return c, nil
 	}
 
 	var err error
