@@ -72,7 +72,7 @@ func NewDBConfig() (store.Config, error) {
 		if err != nil {
 			return c, errors.WithStack(err)
 		}
-		c.Name = u.Path
+		c.Name = u.Path[1:]
 		c.User = u.User.Username()
 		c.Password, _ = u.User.Password()
 		host, port, _ := net.SplitHostPort(u.Host)
