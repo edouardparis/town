@@ -38,7 +38,8 @@ func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error 
 		if errs != nil {
 			return errs
 		}
-		charge := opennode.Charge{}
+		a.Logger.Info("binding success", logging.String("payload", fmt.Sprintf("%d", payload.ID)))
+		charge := opennode.Charge{ID: payload.ID}
 		err = opennode.NewClient(&a.Config.PaymentConfig).UpdateCharge(&charge)
 		if err != nil {
 			return err
