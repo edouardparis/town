@@ -1,9 +1,7 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
-	"net/http/httputil"
 
 	"github.com/LizardsTown/opennode"
 	"github.com/go-chi/chi"
@@ -28,18 +26,16 @@ func webhooksRoutes(a *app.App) func(r chi.Router) {
 func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error {
 	return func(w http.ResponseWriter, r *http.Request) error {
 		payload := payloads.Charge{}
-		dump, err := httputil.DumpRequest(r, true)
-		if err != nil {
-			return err
-		}
-		a.Logger.Info("new webhook", logging.String("request", fmt.Sprintf("%q", dump)))
-
 		errs := binding.Form(r, &payload)
 		if errs != nil {
 			return errs
 		}
 		charge := opennode.Charge(payload)
-		err = opennode.NewClient(&a.Config.PaymentConfig).UpdateCharge(&charge)
+		clt := opennode.NewClient(&a.Config.PaymentConfig)
+		if clt.VerifyCharge(&charge) {
+			return render(w, r, nil, http.StatusBadRequest)
+		}
+		err := clt.UpdateCharge(&charge)
 		if err != nil {
 			return err
 		}
