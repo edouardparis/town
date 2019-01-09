@@ -7,9 +7,7 @@ import (
 	"github.com/mholt/binding"
 )
 
-type Charge struct {
-	opennode.Charge
-}
+type Charge opennode.Charge
 
 // FieldMap for payload (github.com/mholt/binding)
 func (c *Charge) FieldMap(req *http.Request) binding.FieldMap {
