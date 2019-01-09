@@ -46,7 +46,7 @@ func (o *Orders) Create(ctx context.Context, order *models.Order) error {
 			lk.Pair("notes", order.Notes),
 			lk.Pair("payreq", order.PayReq),
 			lk.Pair("charge_created_at", order.ChargeCreatedAt),
-			lk.Pair("charge_settled_at", order.ChargeSettledAt),
+			lk.Pair("charge_settle_at", order.ChargeSettleAt),
 			lk.Pair("claimed_at", order.ClaimedAt),
 		).Returning("id", "created_at", "updated_at")
 	err := o.Save(ctx, query, order)

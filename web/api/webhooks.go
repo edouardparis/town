@@ -26,12 +26,16 @@ func webhooksRoutes(a *app.App) func(r chi.Router) {
 func CheckoutWebhook(a *app.App) func(http.ResponseWriter, *http.Request) error {
 	return func(w http.ResponseWriter, r *http.Request) error {
 		payload := payloads.Charge{}
-		errs := binding.Bind(r, &payload)
+		errs := binding.Form(r, &payload)
 		if errs != nil {
 			return errs
 		}
-		charge := opennode.Charge{}
-		err := opennode.NewClient(&a.Config.PaymentConfig).UpdateCharge(&charge)
+		charge := opennode.Charge(payload)
+		clt := opennode.NewClient(&a.Config.PaymentConfig)
+		if clt.VerifyCharge(&charge) {
+			return render(w, r, nil, http.StatusBadRequest)
+		}
+		err := clt.UpdateCharge(&charge)
 		if err != nil {
 			return err
 		}

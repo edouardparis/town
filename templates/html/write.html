@@ -9,7 +9,10 @@
     <input type="text" class="form-control" id="title" placeholder="Title (required)">
   </div>
   <div class="form-group">
-    <input type="text" class="form-control" id="lang" placeholder="Lang">
+    <select class="form-control" id="lang" placeholder="Lang">
+      <option>EN</option>
+      <option>FR</option>
+    </select>
   </div>
   <div class="form-group">
     <textarea class="form-control" rows="3" type="text" id="subtitle" placeholder="Subtitle"></textarea>
@@ -31,7 +34,8 @@
 
     <div id="success" class="d-none">
       <div class="alert alert-success" role="alert">
-        ✔️  You paid 0.006 €
+        ✔️  You paid <a id=amount></a> Sat
+        <input id="order_id" readonly>
       </div>
       <button id="submit" class="btn btn-primary btn-large btn-block" type="button">
         Publish Article
@@ -104,6 +108,7 @@ $(document).ready(function(){
     payload.body = $("#body").val();
     payload.address = $("#address").val();
     payload.node_pub_key = $("#node_pub_key").val();
+    payload.order_id = $("#order_id").val();
     $.ajax({
       url: '{{ .Header.URLs.Website }}' + '/api/articles', // url where to submit the request
       type : 'POST', // type of action POST || GET
@@ -145,11 +150,13 @@ $(document).ready(function(){
             $("#payreq").val(payment_request);
           }
           var payment_status = data['status'];
-        if (payment_status === 'paid') {
-          $('#payment').addClass('d-none')
-          $('#success').removeClass('d-none')
-          $('#modal-payment').modal('hide')
-        }
+          if (payment_status === 'paid') {
+            $('#payment').addClass('d-none')
+            $('#success').removeClass('d-none')
+            $('#modal-payment').modal('hide')
+            $("#amount").val(data['amount']);
+            $("#order_id").val(data['order_id']);
+          }
       };
 
       chatSocket.onclose = function(e) {

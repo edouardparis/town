@@ -31,7 +31,7 @@ type Order struct {
 	PayReq string `makroud:"column:payreq"`
 
 	ChargeCreatedAt time.Time `makroud:"column:charge_created_at"`
-	ChargeSettledAt time.Time `makroud:"column:charge_settle_at"`
+	ChargeSettleAt  time.Time `makroud:"column:charge_settle_at"`
 
 	CreatedAt time.Time   `makroud:"column:created_at"`
 	UpdatedAt pq.NullTime `makroud:"column:updated_at"`
@@ -55,6 +55,6 @@ func NewOrder(c *opennode.Charge) *Order {
 		Notes:           c.Notes,
 		PayReq:          c.LightningInvoice.PayReq,
 		ChargeCreatedAt: time.Unix(c.LightningInvoice.CreatedAt, 0),
-		ChargeSettledAt: time.Unix(c.LightningInvoice.SettledAt, 0),
+		ChargeSettleAt:  time.Unix(c.LightningInvoice.SettledAt, 0),
 	}
 }

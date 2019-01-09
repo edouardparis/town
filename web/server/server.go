@@ -12,6 +12,7 @@ import (
 	"golang.org/x/sync/errgroup"
 
 	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/logging"
 )
 
 // Run the server
@@ -34,12 +35,19 @@ func Run(ctx context.Context, app *app.App) error {
 	// HTTP server
 	g.Go(func() error {
 		cerr := make(chan error)
+
+		addr := ":8080"
+		port := os.Getenv("PORT")
+		if port != "" {
+			addr = fmt.Sprintf("0.0.0.0:%s", port)
+		}
+
 		srv := http.Server{
-			Addr:    ":8080",
+			Addr:    addr,
 			Handler: Routes(ctx, app),
 		}
 
-		app.Logger.Info("listening on port :8080")
+		app.Logger.Info("server listening", logging.String("port", addr))
 		go func() { cerr <- errors.WithStack(srv.ListenAndServe()) }()
 		select {
 		case err := <-cerr:

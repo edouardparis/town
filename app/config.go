@@ -2,6 +2,8 @@ package app
 
 import (
 	"encoding/json"
+	"net"
+	"net/url"
 	"os"
 	"strconv"
 
@@ -54,15 +56,43 @@ func NewConfigFromENV() (*Config, error) {
 
 	c.LoggerConfig.Environment = os.Getenv("LOGGER_ENV")
 
-	c.StoreConfig.Name = os.Getenv("POSTGRESQL_ADDON_DB")
-	c.StoreConfig.Host = os.Getenv("POSTGRESQL_ADDON_HOST")
-	c.StoreConfig.Password = os.Getenv("POSTGRESQL_ADDON_PASSWORD")
-	c.StoreConfig.User = os.Getenv("POSTGRESQL_ADDON_USER")
-	c.StoreConfig.SSLMode = os.Getenv("POSTGRESQL_ADDON_SSLMODE")
-	c.StoreConfig.Port, err = strconv.Atoi(os.Getenv("POSTGRESQL_ADDON_PORT"))
+	c.StoreConfig, err = NewDBConfig()
 	if err != nil {
 		return nil, err
 	}
 
 	return c, nil
+}
+
+func NewDBConfig() (store.Config, error) {
+	c := store.Config{}
+	s := os.Getenv("DATABASE_URL")
+	if s != "" {
+		u, err := url.Parse(s)
+		if err != nil {
+			return c, errors.WithStack(err)
+		}
+		c.Name = u.Path[1:]
+		c.User = u.User.Username()
+		c.Password, _ = u.User.Password()
+		host, port, _ := net.SplitHostPort(u.Host)
+		c.Host = host
+
+		c.Port, err = strconv.Atoi(port)
+		if err != nil {
+			return c, errors.WithStack(err)
+		}
+		c.SSLMode = "require"
+
+		return c, nil
+	}
+
+	var err error
+	c.Name = os.Getenv("POSTGRESQL_ADDON_DB")
+	c.Host = os.Getenv("POSTGRESQL_ADDON_HOST")
+	c.Password = os.Getenv("POSTGRESQL_ADDON_PASSWORD")
+	c.User = os.Getenv("POSTGRESQL_ADDON_USER")
+	c.SSLMode = os.Getenv("POSTGRESQL_ADDON_SSLMODE")
+	c.Port, err = strconv.Atoi(os.Getenv("POSTGRESQL_ADDON_PORT"))
+	return c, err
 }

@@ -2,7 +2,7 @@ from __future__ import with_statement
 import os
 import sys
 from alembic import context
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import engine_from_config, create_engine
 from logging.config import fileConfig
 
 parent_path = os.path.abspath(os.path.dirname(__file__))
@@ -26,6 +26,20 @@ target_metadata = None
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+
+def get_db_url():
+    url = os.getenv('DATABASE_URL', None)
+    if url:
+        return url
+
+    return "postgres://%s:%s@%s/%s" % (
+        os.getenv('POSTGRES_ADDON_NAME'),
+        os.getenv('POSTGRES_ADDON_USER'),
+        os.getenv('POSTGRES_ADDON_PASSWORD'),
+        os.getenv('POSTGRES_ADDON_HOST'),
+        os.getenv('POSTGRES_ADDON_PORT'),
+    )
 
 
 def run_migrations_offline():
@@ -55,10 +69,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix='sqlalchemy.',
-        poolclass=pool.NullPool)
+    connectable = create_engine(get_db_url())
 
     with connectable.connect() as connection:
         context.configure(
