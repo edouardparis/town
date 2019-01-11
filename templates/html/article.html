@@ -5,7 +5,10 @@
         <a class="p-2 text-muted">Anonymous</a>
       </div>
       <div class="col-md-4 text-center">
-        <a class="p-2 text-muted" href="#">{{ .Article.PublishedAt }}</a>
+        <a class="p-2 text-muted" href="#">
+        {{ if .Article.PublishedAt }}{{ .Article.PublishedAt.Format "Jan 02, 2006" }}
+        {{ else }}{{ .Article.CreatedAt.Format "Jan 02, 2006" }}{{ end }}
+        </a>
       </div>
       <div class="col-md-4 text-right">
         {{ if .Article.Address }}
