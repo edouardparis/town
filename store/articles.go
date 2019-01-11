@@ -117,6 +117,8 @@ func (a *Articles) PreloadList(ctx context.Context, articles *[]models.Article) 
 	return makroud.Preload(ctx, a.Conn(), articles,
 		makroud.WithPreloadField("Address"),
 		makroud.WithPreloadField("Node"),
+		makroud.WithPreloadField("Reactions"),
+		makroud.WithPreloadField("Comments"),
 	)
 }
 

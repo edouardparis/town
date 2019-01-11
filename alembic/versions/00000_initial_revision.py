@@ -99,6 +99,26 @@ def upgrade():
     )
     op.create_index(op.f('town_order_public_id'), 'town_order', ['public_id'])
 
+    op.create_table(
+        "town_article_reaction",
+        sa.Column('id', sa.Integer, primary_key=True),
+        sa.Column('article_id', sa.Integer, nullable=False),
+        sa.Column('order_id', sa.Integer, nullable=False),
+        sa.Column('emoji', sa.String(30), nullable=False),
+        sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    )
+    op.create_index(op.f('town_article_reaction_article_id'), 'town_article_reaction', ['article_id'])
+
+    op.create_table(
+        "town_article_comment",
+        sa.Column('id', sa.Integer, primary_key=True),
+        sa.Column('article_id', sa.Integer, nullable=False),
+        sa.Column('order_id', sa.Integer, nullable=False),
+        sa.Column('body', sa.Text, nullable=False),
+        sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    )
+    op.create_index(op.f('town_article_comment_article_id'), 'town_article_comment', ['article_id'])
+
     if 'with-bootstrap' in context.get_x_argument(as_dictionary=False):
         from bootstrap.utils import insert_data
         from bootstrap.slugs import slugs

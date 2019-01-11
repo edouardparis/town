@@ -94,6 +94,28 @@ CREATE TABLE town_order (
 
 CREATE INDEX town_order_public_id ON town_order (public_id);
 
+CREATE TABLE town_article_reaction (
+    id SERIAL NOT NULL, 
+    article_id INTEGER NOT NULL, 
+    order_id INTEGER NOT NULL, 
+    emoji VARCHAR(30) NOT NULL, 
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL, 
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX town_article_reaction_article_id ON town_article_reaction (article_id);
+
+CREATE TABLE town_article_comment (
+    id SERIAL NOT NULL, 
+    article_id INTEGER NOT NULL, 
+    order_id INTEGER NOT NULL, 
+    body TEXT NOT NULL, 
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL, 
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX town_article_comment_article_id ON town_article_comment (article_id);
+
 INSERT INTO alembic_version (version_num) VALUES ('51638789f439');
 
 COMMIT;
