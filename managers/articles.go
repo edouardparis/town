@@ -30,7 +30,19 @@ func ArticleCreate(ctx context.Context, s store.Store, payload *payloads.Article
 		article.Lang = constants.LangStrToInt[payload.Lang]
 	}
 
-	err := s.Transaction(ctx, func(tx store.Store) error {
+	order, err := store.NewOrders(s).GetByPublicID(ctx, payload.OrderID)
+	if err != nil {
+		if err == failures.ErrNotFound {
+			return nil, failures.ErrBadRequest
+		}
+		return nil, err
+	}
+
+	if order.Status == constants.OrderStatusClaimed {
+		return nil, failures.ErrBadRequest
+	}
+
+	err = s.Transaction(ctx, func(tx store.Store) error {
 		err := setArticleSlug(ctx, tx, article, payload.Title)
 		if err != nil {
 			return err
@@ -41,6 +53,11 @@ func ArticleCreate(ctx context.Context, s store.Store, payload *payloads.Article
 		} else if payload.NodePubKey != "" {
 			err = setArticleNode(ctx, tx, article, payload.NodePubKey)
 		}
+		if err != nil {
+			return err
+		}
+
+		err = store.NewOrders(tx).MarkOrderAs(ctx, order.ID, constants.OrderStatusClaimed)
 		if err != nil {
 			return err
 		}
