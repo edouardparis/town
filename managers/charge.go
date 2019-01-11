@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/EdouardParis/town/app"
+	"github.com/EdouardParis/town/constants"
 	"github.com/EdouardParis/town/resources"
 )
 
@@ -20,12 +21,11 @@ func CreateCharge(c *app.Config) (*resources.Charge, error) {
 	}
 
 	payload := &opennode.ChargePayload{
-		Amount:   int64(6),
-		Currency: "EUR",
-		OrderID:  uid.String(),
+		Amount:      constants.ArticlePublicationPrice,
+		Currency:    "BTC",
+		OrderID:     uid.String(),
+		CallbackURL: fmt.Sprintf("%s/api/webhooks/checkout", c.InfoConfig.URLs.Website),
 	}
-
-	payload.CallbackURL = fmt.Sprintf("%s/api/webhooks/checkout", c.InfoConfig.URLs.Website)
 
 	charge, err := opennode.NewClient(&c.PaymentConfig).CreateCharge(payload)
 	if err != nil {
