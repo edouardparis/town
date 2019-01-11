@@ -9,7 +9,7 @@ import (
 )
 
 type Order struct {
-	ID       string `makroud:"column:id"`
+	ID       int64  `makroud:"column:id,pk"`
 	PublicID string `makroud:"column:public_id"`
 	// Charge Description
 	Description string `makroud:"column:description"`

@@ -15,6 +15,7 @@ type Article struct {
 	Lang       string `json:"lang"`
 	Address    string `json:"address"`
 	NodePubKey string `json:"node_pub_key"`
+	OrderID    string `json:"order_id"`
 }
 
 // FieldMap for payload (github.com/mholt/binding)
@@ -26,6 +27,7 @@ func (a *Article) FieldMap(req *http.Request) binding.FieldMap {
 		&a.Lang:       "lang",
 		&a.Address:    "address",
 		&a.NodePubKey: "node_pub_key",
+		&a.OrderID:    binding.Field{Form: "order_id", Required: true},
 	}
 }
 

@@ -2,11 +2,13 @@ package store
 
 import (
 	"context"
+	"time"
 
 	"github.com/pkg/errors"
 	lk "github.com/ulule/loukoum"
 	"github.com/ulule/makroud"
 
+	"github.com/EdouardParis/town/constants"
 	"github.com/EdouardParis/town/failures"
 	"github.com/EdouardParis/town/models"
 )
@@ -31,6 +33,30 @@ func (o Orders) GetByPublicID(ctx context.Context, publicID string) (*models.Ord
 	}
 
 	return order, nil
+}
+
+// MarkOrderAs updates the recipient from a given thread ID and user ID with
+// the given status.
+func (o Orders) MarkOrderAs(ctx context.Context, orderID int64, status int64) error {
+	fields := map[string]interface{}{"status": status}
+
+	switch status {
+	case constants.OrderStatusClaimed:
+		fields["claimed_at"] = time.Now().UTC()
+	}
+
+	order := models.Order{}
+
+	q := lk.Update(order.TableName()).
+		Set(fields).
+		Where(lk.Condition("id").Equal(orderID))
+
+	err := o.Exec(ctx, q)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	return nil
 }
 
 func (o *Orders) Create(ctx context.Context, order *models.Order) error {
