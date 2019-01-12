@@ -11,6 +11,8 @@ github.com/go-chi/render
 github.com/gofrs/uuid
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
+# github.com/hackebrot/turtle v0.1.0
+github.com/hackebrot/turtle
 # github.com/lib/pq v1.0.0
 github.com/lib/pq
 github.com/lib/pq/oid

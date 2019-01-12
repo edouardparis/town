@@ -20,6 +20,8 @@ github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e h1:JKmoR8x90Iww1
 github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
 github.com/gorilla/websocket v1.4.0 h1:WDFjx/TMzVgy9VdMMQi2K2Emtwi2QcUQsztZ/zLaH/Q=
 github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
+github.com/hackebrot/turtle v0.1.0 h1:cmS72nZuooIARtgix6IRPvmw8r4u8olEZW02Q3DB8YQ=
+github.com/hackebrot/turtle v0.1.0/go.mod h1:vDjX4rgnTSlvROhwGbE2GiB43F/l/8V5TXoRJL2cYTs=
 github.com/heetch/sqalx v0.3.0 h1:0lyXGltxAYRxsjc4otDvaqcwt6/h5hf3EtX/SWdF0Lc=
 github.com/heetch/sqalx v0.3.0/go.mod h1:PrX/L59V0H4kIszdBkMa9o/4U12w2eZPR/Ux1HLGGyQ=
 github.com/hpcloud/tail v1.0.0 h1:nfCOvKYfkgYP8hkirhJocXT2+zOD8yUNjXaWfTlyFKI=

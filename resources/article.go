@@ -24,6 +24,8 @@ type Article struct {
 
 	Address *Address `json:"address,omitempty"`
 	Node    *Node    `json:"node,omitempty"`
+
+	Reactions Reactions `json:"reactions"`
 }
 
 func (a Article) AbsoluteURL() string {
@@ -64,6 +66,10 @@ func NewArticle(article *models.Article) *Article {
 
 	if article.Address != nil {
 		resource.Address = NewAddress(article.Address)
+	}
+
+	if len(article.Reactions) > 0 {
+		resource.Reactions = NewReactions(article.Reactions)
 	}
 
 	return resource
