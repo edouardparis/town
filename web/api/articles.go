@@ -18,7 +18,10 @@ func articlesRoutes(a *app.App) func(r chi.Router) {
 	articleCtx := middlewares.ArticleCtx(a, handleError(a.Logger))
 	return func(r chi.Router) {
 		r.Route("/{slug:[a-z-]+}", func(r chi.Router) {
-			r.With(articleCtx).Get("/", handle(a, ArticleDetail))
+			r.Use(articleCtx)
+			r.Get("/", handle(a, ArticleDetail))
+
+			r.Route("/reactions", reactionsRoutes(a))
 		})
 
 		r.Post("/", handle(a, ArticleCreate))

@@ -19,3 +19,12 @@ func NewReactions(reactions []models.Reaction) Reactions {
 
 	return resource
 }
+
+type Reaction struct {
+	Emoji string `json:"emoji"`
+}
+
+func NewReaction(reaction *models.Reaction) Reaction {
+	emoji := turtle.Emojis[reaction.Emoji]
+	return Reaction{Emoji: emoji.Char}
+}
