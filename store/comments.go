@@ -17,7 +17,7 @@ func NewComments(s Store) *Comments {
 	return &Comments{s}
 }
 
-func (a *Comments) Create(ctx context.Context, comment *models.ArticleComment) error {
+func (a *Comments) Create(ctx context.Context, comment *models.Comment) error {
 	query := lk.Insert(comment.TableName()).
 		Set(
 			lk.Pair("article_id", comment.ArticleID),

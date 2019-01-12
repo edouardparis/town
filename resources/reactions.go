@@ -7,7 +7,7 @@ import (
 
 type Reactions map[string]int
 
-func NewReactions(reactions []models.ArticleReaction) Reactions {
+func NewReactions(reactions []models.Reaction) Reactions {
 	resource := make(Reactions)
 
 	for i := range reactions {

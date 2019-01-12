@@ -17,7 +17,7 @@ func NewReactions(s Store) *Reactions {
 	return &Reactions{s}
 }
 
-func (a *Reactions) Create(ctx context.Context, reaction *models.ArticleReaction) error {
+func (a *Reactions) Create(ctx context.Context, reaction *models.Reaction) error {
 	query := lk.Insert(reaction.TableName()).
 		Set(
 			lk.Pair("article_id", reaction.ArticleID),

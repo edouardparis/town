@@ -7,8 +7,10 @@ require (
 	github.com/go-chi/chi v3.3.3+incompatible
 	github.com/go-chi/render v1.0.1
 	github.com/gofrs/uuid v3.1.0+incompatible
+	github.com/google/go-cmp v0.2.0 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gorilla/websocket v1.4.0 // indirect
+	github.com/hackebrot/go-repr v0.0.0-20170331152400-586d894a5734 // indirect
 	github.com/hackebrot/turtle v0.1.0
 	github.com/heetch/sqalx v0.3.0 // indirect
 	github.com/jmoiron/sqlx v1.2.0 // indirect

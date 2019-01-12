@@ -125,11 +125,13 @@ def upgrade():
         from bootstrap.addresses import addresses
         from bootstrap.articles import articles
         from bootstrap.orders import orders
+        from bootstrap.reactions import reactions
 
         insert_data("town_address", addresses)
         insert_data("town_slug", slugs)
         insert_data("town_article", articles)
         insert_data("town_order", orders)
+        insert_data("town_article_reaction", reactions)
 
 
 def downgrade():

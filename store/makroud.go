@@ -133,8 +133,8 @@ func setCachedColumns(driver makroud.Driver) {
 		models.Node{},
 		models.Slug{},
 		models.Order{},
-		models.ArticleReaction{},
-		models.ArticleComment{},
+		models.Reaction{},
+		models.Comment{},
 	} {
 		cachedColumns[model.TableName()], err = getColumns(driver, model)
 		if err != nil {

@@ -30,8 +30,8 @@ type Article struct {
 	NodeID sql.NullInt64 `makroud:"column:node_id,fk:town_node"`
 	Node   *Node         `makroud:"relation:node_id"`
 
-	Reactions []ArticleReaction
-	Comments  []ArticleComment
+	Reactions []Reaction
+	Comments  []Comment
 }
 
 // TableName implements Model interface.

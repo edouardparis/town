@@ -114,6 +114,11 @@ p {
   color: #999;
 }
 
+.blog-post-reactions {
+  margin-bottom: .25rem;
+  font-size: 1.5rem;
+}
+
 /*
  * Footer
  */
